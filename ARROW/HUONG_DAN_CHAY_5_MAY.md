@@ -4,15 +4,19 @@ Mỗi máy cần có sẵn Git, Python 3, Maven và Internet. Không cần API k
 
 ## Chia máy
 
-| Máy | Hệ điều hành | Shard index |
+| Người chạy | Hệ điều hành | Shard index |
 |---|---|---:|
-| Máy chính | Mac | 0 |
-| Máy 2 | Windows | 1 |
-| Máy 3 | Windows | 2 |
-| Máy 4 | Windows | 3 |
-| Máy 5 | Windows | 4 |
+| Dũng | Mac | 0 |
+| Kiều Anh | Windows | 1 |
+| Quang | Windows | 2 |
+| Chính | Windows | 3 |
+| Hán | Windows | 4 |
 
 Cả năm máy chạy cùng lúc. Không cần đợi nhau.
+
+Mỗi máy đang chạy hai candidate song song vì lệnh dùng `--workers 2`. Máy có
+ít RAM có thể đổi thành `--workers 1`; máy mạnh có thể thử `--workers 3`, nhưng
+nên giữ ở 2 để hạn chế Maven/Gradle tranh RAM, CPU và cache dependency.
 
 ## Bốn máy Windows
 
@@ -38,7 +42,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 . .\Java-version\activate-java-versions.ps1
 ```
 
-Mỗi máy đặt `$ShardIndex` theo bảng trên rồi chạy. Ví dụ máy 2 dùng index 1:
+Mỗi người đặt `$ShardIndex` theo bảng trên rồi chạy. Ví dụ Kiều Anh dùng index 1:
 
 ```powershell
 $ShardIndex = 1
