@@ -22,6 +22,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
+try:
+    import yaml
+except ImportError:  # pragma: no cover
+    yaml = None
+
 from src.build_runner import BuildContext, module_test_command, run_command, verify_baseline, verify_module_tests, verify_target_test
 from src.evosuite_runner import (
     find_focal_bytecode,
@@ -36,7 +41,6 @@ from src.java_resolver import resolve_java_home
 from src.models import FailureState, SampleInput, VerificationResult
 from src.project_analyzer import analyze_experiment
 from src.repo_manager import checkout_dataset_revision, clone_repo, ensure_experiment_workspace, safe_remove_tree
-from src.run_pipeline import load_config
 
 
 ROOT = Path(__file__).resolve().parent
@@ -101,6 +105,15 @@ MANIFEST_FIELDS = [
     "build_tool",
     "java_version",
 ]
+
+
+def load_config(path: Path) -> dict[str, Any]:
+    """Load only the YAML needed by sample qualification, without LLM imports."""
+    if yaml is None:
+        raise RuntimeError("PyYAML is required; install requirements-selection.txt")
+    with path.open("r", encoding="utf-8") as input_file:
+        loaded = yaml.safe_load(input_file)
+    return loaded if isinstance(loaded, dict) else {}
 
 
 def parse_args() -> argparse.Namespace:

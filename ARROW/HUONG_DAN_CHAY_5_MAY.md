@@ -40,14 +40,15 @@ Set-ExecutionPolicy -Scope Process Bypass
 Script cài đặt tự kích hoạt bốn JDK trong cửa sổ PowerShell hiện tại, nên có thể
 chạy chọn sample ngay sau khi cài.
 
-Chỉ sau khi tải Java xong, chuẩn bị Python 3.12 để chạy chọn sample:
+Chỉ sau khi tải Java xong, chuẩn bị Python để chạy chọn sample:
 
 ```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-selection.txt
 ```
 
-Không dùng Python 3.15 vì một số dependency chưa có wheel Windows tương thích.
+Không cài `requirements.txt` ở bước này vì file đó chứa dependency dành cho LLM
+và không cần thiết khi chỉ chọn sample.
 
 Mỗi người đặt `$ShardIndex` theo bảng trên rồi chạy. Ví dụ Kiều Anh dùng index 1:
 
@@ -89,7 +90,7 @@ git pull --ff-only origin main
 cd ARROW
 
 python3 -m venv .venv
-./.venv/bin/python -m pip install -r requirements.txt
+./.venv/bin/python -m pip install -r requirements-selection.txt
 
 ./scripts/install-java-versions-macos.sh
 source Java-version/activate-java-versions.sh
