@@ -20,6 +20,10 @@ nên giữ ở 2 để hạn chế Maven/Gradle tranh RAM, CPU và cache depende
 
 ## Bốn máy Windows
 
+Trên mỗi máy, mở **PowerShell** từ Start Menu rồi mới chạy các lệnh bên dưới.
+Không dùng Command Prompt (`cmd`) hoặc Git Bash. Nếu dùng terminal trong VS Code,
+chọn terminal profile **PowerShell**.
+
 Nếu chưa có code:
 
 ```powershell
