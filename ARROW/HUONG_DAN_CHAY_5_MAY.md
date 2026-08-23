@@ -30,23 +30,24 @@ Nếu chưa có code:
 git clone https://github.com/dungng2808/ARROW-paper.git
 ```
 
-Chuẩn bị và tải Java 8/11/17/21 vào `ARROW/Java-version`:
+Đứng trong thư mục `ARROW`, tải Java 8/11/17/21 vào `ARROW/Java-version`:
 
 ```powershell
-Set-Location ARROW-paper
-git switch main
-git pull --ff-only origin main
-Set-Location ARROW
-
-py -3 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-
 Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\install-java-versions.ps1
 ```
 
 Script cài đặt tự kích hoạt bốn JDK trong cửa sổ PowerShell hiện tại, nên có thể
 chạy chọn sample ngay sau khi cài.
+
+Chỉ sau khi tải Java xong, chuẩn bị Python 3.12 để chạy chọn sample:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+Không dùng Python 3.15 vì một số dependency chưa có wheel Windows tương thích.
 
 Mỗi người đặt `$ShardIndex` theo bảng trên rồi chạy. Ví dụ Kiều Anh dùng index 1:
 

@@ -20,10 +20,18 @@ function Resolve-ArrowRoot {
 }
 
 function Resolve-AzulArchitecture {
-  $architecture = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString()
-  switch ($architecture) {
-    "X64" { return "x64" }
-    "Arm64" { return "arm" }
+  $architecture = $env:PROCESSOR_ARCHITEW6432
+  if (-not $architecture) {
+    $architecture = $env:PROCESSOR_ARCHITECTURE
+  }
+  if (-not $architecture) {
+    throw "Cannot detect Windows architecture from PROCESSOR_ARCHITECTURE"
+  }
+  switch ($architecture.ToUpperInvariant()) {
+    "AMD64" { return "x64" }
+    "X86_64" { return "x64" }
+    "ARM64" { return "arm" }
+    "AARCH64" { return "arm" }
     default { throw "Unsupported Windows architecture: $architecture" }
   }
 }
