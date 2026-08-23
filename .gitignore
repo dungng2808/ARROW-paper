@@ -1,4 +1,6 @@
 classes2test/
+documents/
+ARROW/.venv/
 ARROW/runs/
 ARROW/repos/
 ARROW/export/

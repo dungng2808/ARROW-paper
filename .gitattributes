@@ -1,0 +1,16 @@
+# Reproducible text artifacts across macOS, Linux and Windows.
+*.csv text eol=lf
+*.jsonl text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.sh text eol=lf
+
+# Candidate sample hashes are byte-level provenance and must not be normalized.
+ARROW/shards/clean-samples-*/dataset/** -text
+
+# Binary research artifacts.
+*.docx -text
+*.pdf -text
+*.jar -text
