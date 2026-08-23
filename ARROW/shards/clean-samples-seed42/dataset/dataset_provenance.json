@@ -1,0 +1,6 @@
+{
+  "sample_count": 3000,
+  "total_bytes": 29942063,
+  "source_dataset": "/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/classes2test/dataset",
+  "destination_dataset": "/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/ARROW/shards/clean-samples-seed42/dataset"
+}

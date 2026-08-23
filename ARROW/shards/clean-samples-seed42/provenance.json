@@ -1,0 +1,17 @@
+{
+  "run_id": "clean-200-candidates-seed42",
+  "prepared_at_utc": "2026-08-23T18:52:49.502574+00:00",
+  "dataset": "/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/classes2test/dataset",
+  "seed": 42,
+  "candidate_count": 3000,
+  "candidate_manifest": "/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/ARROW/shards/clean-samples-seed42/candidate_manifest.csv",
+  "candidate_manifest_sha256": "7972bccb046154036617af5776debe75c973209c6921308fdb5bc47637921c1f",
+  "exported_dataset": {
+    "sample_count": 3000,
+    "total_bytes": 29942063,
+    "source_dataset": "/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/classes2test/dataset",
+    "destination_dataset": "/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/ARROW/shards/clean-samples-seed42/dataset"
+  },
+  "selection_rule": "seeded repository order; one deterministic sample per repository",
+  "generation_results_used_for_selection": false
+}
