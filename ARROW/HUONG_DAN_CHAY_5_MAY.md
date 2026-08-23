@@ -39,8 +39,10 @@ py -3 -m venv .venv
 
 Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\install-java-versions.ps1
-. .\Java-version\activate-java-versions.ps1
 ```
+
+Script cài đặt tự kích hoạt bốn JDK trong cửa sổ PowerShell hiện tại, nên có thể
+chạy chọn sample ngay sau khi cài.
 
 Mỗi người đặt `$ShardIndex` theo bảng trên rồi chạy. Ví dụ Kiều Anh dùng index 1:
 
@@ -64,7 +66,7 @@ $ShardIndex = 1
 
 Các máy Windows còn lại chỉ thay `$ShardIndex` thành 2, 3 hoặc 4.
 
-Nếu mở PowerShell mới trước khi chạy lại:
+Chỉ khi mở PowerShell mới, chạy hai lệnh sau trước khi chạy sample:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
