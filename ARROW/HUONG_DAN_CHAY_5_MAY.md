@@ -19,8 +19,9 @@ merge cuối cùng phải đợi đủ kết quả của cả năm máy.
 
 ## 2. Quy tắc chung
 
-- Không copy hoặc commit thư mục `Java-version`, `.venv`, `runs` hay `repos`.
-- Mỗi máy tự cài JDK phù hợp với hệ điều hành; JDK macOS không chạy trên Windows.
+- Mỗi máy tự tải JDK 8/11/17/21 vào `ARROW/Java-version`; JDK macOS không
+  chạy trên Windows.
+- `Java-version`, `.venv`, `runs` và `repos` là dữ liệu local, không commit lên Git.
 - Không sửa `candidate_manifest.csv` hoặc các JSON trong mini dataset.
 - Cả năm máy phải dùng cùng commit trên nhánh `main`.
 - Mỗi máy phải dùng đúng một shard index khác nhau từ 0 đến 4.
@@ -42,32 +43,7 @@ SHA256 bắt buộc:
 
 ## 3. Chuẩn bị máy Windows
 
-### 3.1. Cài JDK 8, 11, 17 và 21
-
-Mở PowerShell bằng quyền **Run as Administrator**, sau đó chạy:
-
-```powershell
-winget install -e --id EclipseAdoptium.Temurin.8.JDK  --accept-package-agreements --accept-source-agreements
-winget install -e --id EclipseAdoptium.Temurin.11.JDK --accept-package-agreements --accept-source-agreements
-winget install -e --id EclipseAdoptium.Temurin.17.JDK --accept-package-agreements --accept-source-agreements
-winget install -e --id EclipseAdoptium.Temurin.21.JDK --accept-package-agreements --accept-source-agreements
-```
-
-Đóng PowerShell, mở lại rồi kiểm tra cả bốn JDK:
-
-```powershell
-Get-ChildItem "C:\Program Files\Eclipse Adoptium" -Directory | ForEach-Object {
-    Write-Host "=== $($_.FullName) ==="
-    & "$($_.FullName)\bin\java.exe" -version
-    & "$($_.FullName)\bin\javac.exe" -version
-}
-```
-
-Phải nhìn thấy đủ major version 8, 11, 17 và 21. ARROW tự tìm JDK trong
-`C:\Program Files\Eclipse Adoptium`; không cần copy JDK vào repository và không
-cần đặt một `JAVA_HOME` chung cho cả bốn phiên bản.
-
-### 3.2. Kiểm tra công cụ
+### 3.1. Kiểm tra công cụ
 
 Máy phải có Git, Python 3.11+ và Maven. Gradle project ưu tiên Gradle Wrapper.
 Kiểm tra:
@@ -80,7 +56,7 @@ mvn -version
 
 Nếu một lệnh chưa tồn tại, cài công cụ đó và mở PowerShell mới trước khi tiếp tục.
 
-### 3.3. Clone và cài Python dependencies
+### 3.2. Clone và cài Python dependencies
 
 Thực hiện một lần trên mỗi máy Windows:
 
@@ -105,6 +81,51 @@ git pull --ff-only origin main
 Set-Location ARROW
 ```
 
+### 3.3. Tải JDK vào `ARROW/Java-version`
+
+Không dùng WinGet để cài JDK toàn hệ thống. Từ thư mục `ARROW`, chạy script đã
+commit trong repository:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\install-java-versions.ps1
+```
+
+Script tự thực hiện các bước sau:
+
+- nhận diện Windows x64/ARM64;
+- tải Azul Zulu JDK 8, 11, 17 và 21 đúng kiến trúc;
+- kiểm tra SHA256 theo metadata chính thức trước khi giải nén;
+- đặt JDK tại `Java-version\java-8`, `java-11`, `java-17`, `java-21`;
+- tạo `Java-version\activate-java-versions.ps1`.
+
+Mỗi khi mở PowerShell mới, vào thư mục `ARROW` rồi kích hoạt bốn JDK local:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+. .\Java-version\activate-java-versions.ps1
+```
+
+Kiểm tra:
+
+```powershell
+Get-Content .\Java-version\java-version-map.txt
+
+8, 11, 17, 21 | ForEach-Object {
+    $JavaHome = Get-Item "Env:JAVA_$($_)_HOME"
+    Write-Host "=== java-$($_): $($JavaHome.Value) ==="
+    & "$($JavaHome.Value)\bin\java.exe" -version
+    & "$($JavaHome.Value)\bin\javac.exe" -version
+}
+```
+
+Nếu download bị dừng, chạy lại script; archive đúng checksum trong `.cache` sẽ
+được tái sử dụng. Chỉ dùng `-Force` khi muốn thay một JDK local bị hỏng:
+
+```powershell
+.\scripts\install-java-versions.ps1 -Force
+```
+
 ### 3.4. Kiểm tra commit và candidate checksum
 
 ```powershell
@@ -122,6 +143,8 @@ chạy. Hash candidate phải đúng giá trị SHA256 ghi ở phần 2.
 Mỗi máy đặt `$ShardIndex` theo bảng ở phần 1. Ví dụ máy Windows 1 dùng index 1:
 
 ```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+. .\Java-version\activate-java-versions.ps1
 $ShardIndex = 1
 
 .\.venv\Scripts\python.exe select_clean_samples.py `
@@ -147,26 +170,44 @@ Khi bị gián đoạn, đặt lại đúng `$ShardIndex` rồi chạy lại ngu
 
 ## 5. Chạy trên máy Mac điều phối
 
-Máy Mac hiện dùng shard index 0. Cài đủ Temurin JDK 8, 11, 17 và 21 bằng
-Homebrew; các JDK được cài vào hệ thống, không nằm trong repository:
+Máy Mac dùng shard index 0. Trước hết cập nhật code và chuẩn bị Python:
 
 ```bash
-brew install --cask temurin@8 temurin@11 temurin@17 temurin@21
+cd ARROW-paper
+git switch main
+git pull --ff-only origin main
+cd ARROW
+
+python3 -m venv .venv
+./.venv/bin/python -m pip install --upgrade pip
+./.venv/bin/python -m pip install -r requirements.txt
 ```
 
-Kiểm tra phải thấy đủ bốn major version:
+Tải đủ Azul Zulu JDK 8/11/17/21 dành cho kiến trúc của máy Mac vào đúng
+`ARROW/Java-version`:
 
 ```bash
-/usr/libexec/java_home -V
+chmod +x scripts/install-java-versions-macos.sh
+./scripts/install-java-versions-macos.sh
+source Java-version/activate-java-versions.sh
 ```
 
-Khai báo đường dẫn cho ARROW trong terminal sẽ chạy qualification:
+Script tự nhận diện Apple Silicon/Intel, kiểm tra SHA256 và tạo layout:
+
+```text
+Java-version/
+├── java-8/
+├── java-11/
+├── java-17/
+├── java-21/
+├── activate-java-versions.sh
+└── java-version-map.txt
+```
+
+Kiểm tra cả bốn JDK local:
 
 ```bash
-export JAVA_8_HOME="$(/usr/libexec/java_home -v 1.8)"
-export JAVA_11_HOME="$(/usr/libexec/java_home -v 11)"
-export JAVA_17_HOME="$(/usr/libexec/java_home -v 17)"
-export JAVA_21_HOME="$(/usr/libexec/java_home -v 21)"
+cat Java-version/java-version-map.txt
 
 "${JAVA_8_HOME}/bin/java" -version
 "${JAVA_11_HOME}/bin/java" -version
@@ -177,28 +218,22 @@ export JAVA_21_HOME="$(/usr/libexec/java_home -v 21)"
 Kiểm tra commit và checksum:
 
 ```bash
-cd ARROW-paper
-git switch main
-git pull --ff-only origin main
 git log -1 --oneline
 git status --short
 
-cd ARROW
 openssl dgst -sha256 shards/clean-samples-seed42/candidate_manifest.csv
 ```
 
-Chuẩn bị môi trường nếu chưa có:
+Khi mở terminal mới, phải vào thư mục `ARROW` và kích hoạt lại đường dẫn JDK:
 
 ```bash
-python3 -m venv .venv
-./.venv/bin/python -m pip install --upgrade pip
-./.venv/bin/python -m pip install -r requirements.txt
+source Java-version/activate-java-versions.sh
 ```
 
 Chạy shard 0 cùng lúc với bốn máy Windows:
 
 ```bash
-# Nếu vừa mở terminal mới, khai báo lại bốn biến JAVA_*_HOME ở trên.
+source Java-version/activate-java-versions.sh
 SHARD_INDEX=0
 
 ./.venv/bin/python select_clean_samples.py \
@@ -307,8 +342,9 @@ pool mới lớn hơn theo cùng quy trình khóa seed.
 
 - Hai máy dùng cùng shard index.
 - Một máy sửa candidate CSV/JSON hoặc dùng commit khác các máy còn lại.
-- Chỉ cài một JDK 17 rồi dùng nó cho mọi repository Java cũ.
+- Chỉ tải một JDK 17 rồi dùng nó cho mọi repository Java cũ.
 - Chạy khi `mvn`, Git hoặc Python chưa hoạt động.
 - Xóa `runs/sample_selection/distributed/shard-i` khi shard chưa hoàn thành.
-- Commit `ARROW/repos`, `ARROW/runs`, `.venv`, `Java-version` hoặc API key.
+- Commit `ARROW/repos`, `ARROW/runs`, `.venv`, `Java-version` hoặc API key. JDK
+  phải nằm trong `Java-version` trên từng máy nhưng thư mục này luôn bị Git ignore.
 - Dùng kết quả test sinh bởi LLM để quyết định giữ hay loại sample.
