@@ -77,6 +77,9 @@ class AgentConfig:
     api_key_env: str | None = None
     num_ctx: int | None = None
     max_tokens: int | None = None
+    stream: bool = False
+    thinking: dict[str, Any] | None = None
+    reasoning_effort: str | None = None
 
 
 @dataclass

@@ -14,6 +14,7 @@ from .models import VerificationResult
 
 @dataclass
 class MetricsResult:
+    coverage_instruction: str = ""
     coverage_branch: str = ""
     coverage_line: str = ""
     coverage_method: str = ""
@@ -357,12 +358,15 @@ def _read_jacoco_csv(path: Path, focal_class_name: str, result: MetricsResult) -
     if not focal_rows:
         result.coverage_error = f"focal class {focal_class_name} not found in jacoco csv"
         return
+    instruction_covered = sum(int(row.get("INSTRUCTION_COVERED") or 0) for row in focal_rows)
+    instruction_missed = sum(int(row.get("INSTRUCTION_MISSED") or 0) for row in focal_rows)
     branch_covered = sum(int(row.get("BRANCH_COVERED") or 0) for row in focal_rows)
     branch_missed = sum(int(row.get("BRANCH_MISSED") or 0) for row in focal_rows)
     line_covered = sum(int(row.get("LINE_COVERED") or 0) for row in focal_rows)
     line_missed = sum(int(row.get("LINE_MISSED") or 0) for row in focal_rows)
     method_covered = sum(int(row.get("METHOD_COVERED") or 0) for row in focal_rows)
     method_missed = sum(int(row.get("METHOD_MISSED") or 0) for row in focal_rows)
+    result.coverage_instruction = _pct(str(instruction_covered), str(instruction_missed))
     result.coverage_branch = _pct(str(branch_covered), str(branch_missed))
     result.coverage_line = _pct(str(line_covered), str(line_missed))
     result.coverage_method = _pct(str(method_covered), str(method_missed))
@@ -377,7 +381,9 @@ def _read_pitest_csv(path: Path, focal_class_name: str, result: MetricsResult) -
     header = [cell.strip().lower() for cell in rows[0]]
     data_rows = rows[1:] if "status" in header or "result" in header else rows
     status_index = header.index("status") if "status" in header else header.index("result") if "result" in header else 5
-    class_index = header.index("class") if "class" in header else header.index("focal_class") if "focal_class" in header else 0
+    class_index = header.index("class") if "class" in header else header.index("focal_class") if "focal_class" in header else (
+        1 if data_rows and len(data_rows[0]) > 1 and data_rows[0][0].strip().endswith(".java") else 0
+    )
     focal_rows = [row for row in data_rows if len(row) > max(class_index, status_index) and row[class_index].split(".")[-1].replace(".java", "") == focal_class_name]
     total = len(focal_rows)
     killed = sum(1 for row in focal_rows if row[status_index].strip().upper() in {"KILLED", "TIMED_OUT"})

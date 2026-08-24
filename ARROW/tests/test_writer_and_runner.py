@@ -450,6 +450,23 @@ def test_safe_remove_tree_removes_only_inside_allowed_root(tmp_path):
     assert outside.exists()
 
 
+@pytest.mark.skipif(os.name == "nt", reason="POSIX directory permissions are required")
+def test_safe_remove_tree_recovers_from_unreadable_directory(tmp_path):
+    allowed_root = tmp_path / "runs"
+    target = allowed_root / "exp" / "workspace"
+    locked = target / "locked"
+    locked.mkdir(parents=True)
+    (locked / "file.txt").write_text("temporary checkout", encoding="utf-8")
+    locked.chmod(0)
+
+    try:
+        assert safe_remove_tree(target, allowed_root) is True
+        assert not target.exists()
+    finally:
+        if locked.exists():
+            locked.chmod(0o700)
+
+
 def test_workspace_copy_preserves_source_package_named_build_but_skips_gradle_outputs(tmp_path):
     source = tmp_path / "cached-repo"
     destination = tmp_path / "experiment" / "workspace"
@@ -474,6 +491,20 @@ def test_workspace_copy_preserves_source_package_named_build_but_skips_gradle_ou
     assert (destination / gradle_source.relative_to(source) / "DistributeTask.groovy").is_file()
     assert not (destination / "build").exists()
     assert not (destination / "buildSrc" / "build").exists()
+
+
+@pytest.mark.skipif(os.name == "nt", reason="Windows symlink creation requires additional privileges")
+def test_workspace_copy_preserves_broken_symlink(tmp_path):
+    source = tmp_path / "cached-repo"
+    destination = tmp_path / "experiment" / "workspace"
+    source.mkdir()
+    (source / "pom.xml").write_text("<project/>", encoding="utf-8")
+    (source / ".sdkmanrc").symlink_to("missing-sdkmanrc")
+
+    copy_isolated_workspace(source, destination)
+
+    assert (destination / ".sdkmanrc").is_symlink()
+    assert os.readlink(destination / ".sdkmanrc") == "missing-sdkmanrc"
 
 
 @pytest.mark.skipif(os.name == "nt", reason="Windows does not expose POSIX executable bits")
@@ -574,3 +605,54 @@ def test_checkout_dataset_revision_restores_historical_focal_path(tmp_path):
     assert checkout == dataset_revision
     assert focal.is_file()
     assert test.is_file()
+
+
+@pytest.mark.skipif(os.name == "nt", reason="Windows does not expose POSIX executable bits")
+def test_checkout_dataset_revision_discards_cache_mode_changes(tmp_path):
+    repository = tmp_path / "repo"
+    repository.mkdir()
+
+    def git(*args: str) -> str:
+        result = subprocess.run(
+            ["git", *args],
+            cwd=repository,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=True,
+        )
+        return result.stdout.strip()
+
+    git("init")
+    git("config", "user.email", "arrow@example.test")
+    git("config", "user.name", "ARROW Test")
+    focal = repository / "src" / "main" / "java" / "demo" / "Focal.java"
+    test = repository / "src" / "test" / "java" / "demo" / "FocalTest.java"
+    wrapper = repository / "mvnw"
+    focal.parent.mkdir(parents=True)
+    test.parent.mkdir(parents=True)
+    focal.write_text("package demo; public class Focal {}\n", encoding="utf-8")
+    test.write_text("package demo; public class FocalTest {}\n", encoding="utf-8")
+    wrapper.write_text("#!/bin/sh\n", encoding="utf-8")
+    wrapper.chmod(0o644)
+    git("add", ".")
+    git("commit", "-m", "dataset revision")
+    dataset_revision = git("rev-parse", "HEAD")
+    focal.unlink()
+    git("add", "-A")
+    git("commit", "-m", "remove focal")
+
+    # Simulate a prior run making the tracked wrapper executable in the cache.
+    wrapper.chmod(0o755)
+    assert git("status", "--porcelain")
+
+    checkout = checkout_dataset_revision(
+        repository,
+        "src/main/java/demo/Focal.java",
+        "src/test/java/demo/FocalTest.java",
+    )
+
+    assert checkout == dataset_revision
+    assert focal.is_file()
+    assert not git("status", "--porcelain")

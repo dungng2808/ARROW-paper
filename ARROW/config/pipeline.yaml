@@ -44,19 +44,24 @@ build:
   java_default:
     windows: 'Java version\jdk-17'
     linux: '/home/cuongpv/ARROW/Java-version/java-8'
+    macos: '/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home'
   java_homes:
     java-8:
       windows: 'Java version\jdk-8'
       linux: '/home/cuongpv/ARROW/Java-version/java-8'
+      macos: '/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/ARROW/Java-version/java-8/Contents/Home'
     java-11:
       windows: 'Java version\jdk-11'
       linux: '/home/cuongpv/ARROW/Java-version/java-11'
+      macos: '/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/ARROW/Java-version/java-11/Contents/Home'
     java-17:
       windows: 'Java version\jdk-17'
       linux: '/home/cuongpv/ARROW/Java-version/java-17'
+      macos: '/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home'
     java-21:
       windows: 'Java version\jdk-21'
       linux: '/home/cuongpv/ARROW/Java-version/java-21'
+      macos: '/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/ARROW/Java-version/java-21/Contents/Home'
 
 
   test_timeout_seconds: 900
@@ -91,6 +96,24 @@ llm:
       api_key_env: OPENAI_API_KEY
       temperature: 0
       max_tokens: 4096
+    # TeamoRouter dùng API tương thích OpenAI. Không ghi API key vào file này;
+    # export TEAMOROUTER_API_KEY="sk-teamo-..." trước khi chạy.
+    # Đổi model ID sau dấu openai/ nếu dashboard /v1/models của TeamoRouter
+    # báo một model khác đang khả dụng cho tài khoản của bạn.
+    - name: teamorouter-deepseek-v4-pro
+      model: openai/deepseek-v4-pro
+      api_base: https://api.teamorouter.com/v1
+      api_key_env: OPENAI_API_KEY
+      temperature: 0
+      max_tokens: 32768
+      # Giữ stream SSE hoạt động khi model cần thời gian suy luận; pipeline
+      # sẽ gom đủ chunk trước khi validate Java source.
+      stream: true
+      # DeepSeek V4 Pro: bật reasoning rõ ràng thay vì phụ thuộc default.
+      # high là mức nên dùng cho RQ1; max tăng đáng kể latency/chi phí.
+      thinking:
+        type: enabled
+      reasoning_effort: high
 
 prompts:
   generation_strategies:

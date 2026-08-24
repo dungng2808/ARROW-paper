@@ -250,6 +250,69 @@ def _run_with_gradle_project_fallback(
     return fallback
 
 
+def _maven_selected_project_not_found(result: VerificationResult) -> bool:
+    return bool(
+        re.search(
+            r"could not find the selected project in the reactor|selected project .* not found in the reactor",
+            result.raw_output or "",
+            flags=re.IGNORECASE,
+        )
+    )
+
+
+def _maven_standalone_test_invocation(ctx: BuildContext, target_only: bool) -> tuple[list[str], Path]:
+    """Build directly from the module POM when root ``-pl`` is rejected.
+
+    Some repositories have a root POM that looks like an aggregator to the
+    static analyser but cannot resolve the module selector Maven expects.
+    Retrying only on Maven's explicit reactor-selector error is safe and keeps
+    the normal root-with-``-am`` path for repositories that need sibling builds.
+    """
+    wrapper_names = ["mvnw.cmd"] if _is_windows() else ["mvnw"]
+    wrapper = _find_upwards(ctx.module_root, ctx.repository_root, wrapper_names) if ctx.prefer_wrapper else None
+    if wrapper:
+        command = [str(wrapper)]
+    else:
+        exe = shutil.which("mvn.cmd") or shutil.which("mvn") if _is_windows() else shutil.which("mvn")
+        command = [exe or ("mvn.cmd" if _is_windows() else "mvn")]
+    pom = ctx.module_root / "pom.xml"
+    if pom.is_file():
+        command.extend(["-f", str(pom)])
+    command.append("-DfailIfNoTests=false")
+    if target_only:
+        if not ctx.maven_fail_if_no_specified_tests:
+            command.append("-Dsurefire.failIfNoSpecifiedTests=false")
+        command.append(f"-Dtest={ctx.generated_test_class_name}")
+    command.append("test")
+    return command, ctx.module_root
+
+
+def _run_with_maven_reactor_fallback(
+    ctx: BuildContext,
+    command: list[str],
+    cwd: Path,
+    target_only: bool,
+) -> VerificationResult:
+    result = run_command(ctx, command, cwd, "maven", target_only=target_only)
+    if not _maven_selected_project_not_found(result):
+        return result
+    fallback_command, fallback_cwd = _maven_standalone_test_invocation(ctx, target_only)
+    if fallback_command == command and fallback_cwd.resolve() == cwd.resolve():
+        return result
+    print(
+        f"[{time.strftime('%H:%M:%S')}] BUILD maven root reactor rejected module selector; "
+        f"retry with module POM {ctx.module_root / 'pom.xml'}",
+        flush=True,
+    )
+    fallback = run_command(ctx, fallback_command, fallback_cwd, "maven", target_only=target_only)
+    fallback.raw_output = (
+        result.raw_output
+        + "\n\n--- ARROW Maven standalone-module fallback ---\n\n"
+        + fallback.raw_output
+    )
+    return fallback
+
+
 def target_test_command(ctx: BuildContext) -> tuple[str, list[str], Path]:
     if ctx.build_tool == "maven":
         command = select_maven_command(ctx)
@@ -372,6 +435,8 @@ def verify_target_test(ctx: BuildContext) -> VerificationResult:
     tool, command, cwd = target_test_command(ctx)
     if tool == "gradle":
         return _run_with_gradle_project_fallback(ctx, command, cwd, target_only=True)
+    if tool == "maven":
+        return _run_with_maven_reactor_fallback(ctx, command, cwd, target_only=True)
     return run_command(ctx, command, cwd, tool, target_only=True)
 
 
@@ -382,6 +447,8 @@ def verify_module_tests(ctx: BuildContext) -> VerificationResult:
     tool, command, cwd = module_test_command(ctx)
     if tool == "gradle":
         return _run_with_gradle_project_fallback(ctx, command, cwd, target_only=False)
+    if tool == "maven":
+        return _run_with_maven_reactor_fallback(ctx, command, cwd, target_only=False)
     return run_command(ctx, command, cwd, tool, target_only=False)
 
 

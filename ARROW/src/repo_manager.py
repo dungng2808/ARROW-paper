@@ -11,15 +11,15 @@ from .fs_utils import ensure_dir
 
 
 def _retry_remove_readonly(function, path, _exc_info) -> None:
-    try:
-        target = Path(path)
-        if target.exists():
-            target.chmod(stat.S_IWRITE)
+    target = Path(path)
+    target.chmod(target.stat().st_mode | stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+    # Python 3.9's shutil.rmtree reports an unreadable directory through
+    # onerror(os.open, ...).  os.open cannot be retried as function(path), and
+    # merely opening it would not make rmtree descend into the directory.
+    if function is os.open:
+        shutil.rmtree(target, onerror=_retry_remove_readonly)
+    else:
         function(path)
-    except FileNotFoundError:
-        pass
-    except Exception:
-        pass
 
 
 def safe_remove_tree(path: Path, allowed_root: Path) -> bool:
@@ -80,10 +80,9 @@ def _make_build_wrappers_executable(root: Path) -> None:
             wrapper.chmod(wrapper.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
 
 
-def _ensure_git_history_for_build(repository: Path, timeout_seconds: int = 90) -> None:
+def _ensure_git_history_for_build(repository: Path) -> None:
     if not _repository_requires_git_metadata(repository):
         return
-    git_env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
     result = subprocess.run(
         ["git", "rev-parse", "--is-shallow-repository"],
         cwd=repository,
@@ -92,17 +91,14 @@ def _ensure_git_history_for_build(repository: Path, timeout_seconds: int = 90) -
         encoding="utf-8",
         errors="replace",
         check=True,
-        env=git_env,
-        stdin=subprocess.DEVNULL,
     )
     if result.stdout.strip().lower() == "true":
-        subprocess.run(["git", "fetch", "--unshallow", "--tags"], cwd=repository, check=True, timeout=timeout_seconds, env=git_env, stdin=subprocess.DEVNULL)
+        subprocess.run(["git", "fetch", "--unshallow", "--tags"], cwd=repository, check=True)
 
 
-def _ensure_full_git_history(repository: Path, timeout_seconds: int = 90) -> None:
+def _ensure_full_git_history(repository: Path) -> None:
     if not (repository / ".git").exists():
         return
-    git_env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
     result = subprocess.run(
         ["git", "rev-parse", "--is-shallow-repository"],
         cwd=repository,
@@ -111,11 +107,9 @@ def _ensure_full_git_history(repository: Path, timeout_seconds: int = 90) -> Non
         encoding="utf-8",
         errors="replace",
         check=True,
-        env=git_env,
-        stdin=subprocess.DEVNULL,
     )
     if result.stdout.strip().lower() == "true":
-        subprocess.run(["git", "fetch", "--unshallow", "--tags"], cwd=repository, check=True, timeout=timeout_seconds, env=git_env, stdin=subprocess.DEVNULL)
+        subprocess.run(["git", "fetch", "--unshallow", "--tags"], cwd=repository, check=True)
 
 
 def _repo_relative_candidates(relative: str) -> list[Path]:
@@ -189,7 +183,12 @@ def checkout_dataset_revision(repository: Path, focal_class_path: str, test_clas
         focal_exists = any(_git_object_exists(repository, commit, candidate) for candidate in focal_candidates)
         test_exists = any(_git_object_exists(repository, commit, candidate) for candidate in test_candidates)
         if focal_exists and test_exists:
-            subprocess.run(["git", "checkout", commit], cwd=repository, check=True)
+            # The repository under ``repos/`` is a pipeline-owned cache.  A
+            # previous interrupted run (or making mvnw/gradlew executable on
+            # POSIX) can leave tracked mode-only changes behind.  Force the
+            # historical checkout so those cache-local changes cannot trigger
+            # a multi-gigabyte clone retry.
+            subprocess.run(["git", "checkout", "--force", commit], cwd=repository, check=True)
             return commit
     return ""
 
@@ -198,36 +197,31 @@ def copy_isolated_workspace(source_repo: Path, experiment_workspace: Path) -> Pa
     """Create a writable per-experiment copy without depending on Git worktrees."""
     if experiment_workspace.exists():
         safe_remove_tree(experiment_workspace, experiment_workspace.parent)
-    shutil.copytree(source_repo, experiment_workspace, ignore=_workspace_copy_ignore)
+    # Preserve symlinks instead of dereferencing them. Historical repositories
+    # frequently contain relative links (for example .sdkmanrc) whose target is
+    # absent in a shallow checkout; dereferencing such a link makes copytree
+    # fail before the build can even be attempted.
+    shutil.copytree(source_repo, experiment_workspace, symlinks=True, ignore=_workspace_copy_ignore)
     if _repository_requires_git_metadata(source_repo) and (source_repo / ".git").is_dir():
         shutil.copytree(source_repo / ".git", experiment_workspace / ".git")
     _make_build_wrappers_executable(experiment_workspace)
     return experiment_workspace
 
 
-def clone_repo(repo_url: str, destination: Path, checkout: str | None = None, timeout_seconds: int = 120) -> Path:
+def clone_repo(repo_url: str, destination: Path, checkout: str | None = None) -> Path:
     if destination.exists():
         _ensure_git_history_for_build(destination)
-        _make_build_wrappers_executable(destination)
         return destination
     ensure_dir(destination.parent)
-    git_env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
     try:
-        subprocess.run(
-            ["git", "-c", "core.longpaths=true", "clone", "--depth", "1", repo_url, str(destination)],
-            check=True,
-            timeout=timeout_seconds,
-            env=git_env,
-            stdin=subprocess.DEVNULL,
-        )
-    except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+        subprocess.run(["git", "-c", "core.longpaths=true", "clone", "--depth", "1", repo_url, str(destination)], check=True)
+    except subprocess.CalledProcessError:
         if destination.exists():
             safe_remove_tree(destination, destination.parent)
         raise
     if checkout:
-        subprocess.run(["git", "checkout", checkout], cwd=destination, check=True, timeout=60, env=git_env, stdin=subprocess.DEVNULL)
+        subprocess.run(["git", "checkout", "--force", checkout], cwd=destination, check=True)
     _ensure_git_history_for_build(destination)
-    _make_build_wrappers_executable(destination)
     return destination
 
 

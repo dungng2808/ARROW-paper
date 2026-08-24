@@ -21,6 +21,7 @@ def test_read_jacoco_csv_extracts_focal_class_percentages(tmp_path):
 
     _read_jacoco_csv(report, "EdgeTypeStore", result)
 
+    assert result.coverage_instruction == "100.00"
     assert result.coverage_branch == "75.00"
     assert result.coverage_line == "80.00"
     assert result.coverage_method == "80.00"
@@ -46,6 +47,26 @@ def test_read_pitest_csv_extracts_mutation_score_from_headered_csv(tmp_path):
     assert result.mutations_total == "2"
     assert result.mutations_killed == "1"
     assert result.mutations_survived == "1"
+    assert result.mutation_score == "50.00"
+
+
+def test_read_pitest_csv_supports_headerless_117_layout(tmp_path):
+    report = tmp_path / "mutations.csv"
+    report.write_text(
+        "\n".join(
+            [
+                "Foo.java,demo.Foo,mutator,a,10,KILLED,demo.Foo_ESTest.test0",
+                "Foo.java,demo.Foo,mutator,b,11,NO_COVERAGE,none",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    result = MetricsResult()
+
+    _read_pitest_csv(report, "Foo", result)
+
+    assert result.mutations_total == "2"
+    assert result.mutations_killed == "1"
     assert result.mutation_score == "50.00"
 
 

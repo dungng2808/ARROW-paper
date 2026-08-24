@@ -1,9 +1,15 @@
 classes2test/
 documents/
+.DS_Store
+**/.DS_Store
+IEEECS_CPS_2026/*.aux
+IEEECS_CPS_2026/*.log
+IEEECS_CPS_2026/*.synctex.gz
 ARROW/.venv/
 ARROW/Java-version/
 ARROW/runs/
 ARROW/repos/
+ARROW/tools/
 ARROW/export/
 ARROW/dashboard/logs/
 ARROW/dashboard/runtime_configs/

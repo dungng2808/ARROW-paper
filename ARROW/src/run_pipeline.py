@@ -102,6 +102,9 @@ def _agents(config: dict[str, Any], args: argparse.Namespace) -> list[AgentConfi
                 api_key_env=item.get("api_key_env") or api_key_env,
                 num_ctx=item.get("num_ctx"),
                 max_tokens=item.get("max_tokens"),
+                stream=bool(item.get("stream", False)),
+                thinking=item.get("thinking"),
+                reasoning_effort=item.get("reasoning_effort"),
             )
         )
     if selected and not agents:
@@ -425,6 +428,9 @@ def _run_one_experiment(
                     api_key_env=agent.api_key_env,
                     num_ctx=agent.num_ctx,
                     max_tokens=agent.max_tokens,
+                    stream=agent.stream,
+                    thinking=agent.thinking,
+                    reasoning_effort=agent.reasoning_effort,
                 )
             )
             generation_usage = record_token_usage(
@@ -527,6 +533,9 @@ def _run_one_experiment(
                 temperature=agent.temperature,
                 num_ctx=agent.num_ctx,
                 max_tokens=agent.max_tokens,
+                stream=agent.stream,
+                thinking=agent.thinking,
+                reasoning_effort=agent.reasoning_effort,
                 token_usage_by_prompt=token_usage_by_prompt,
             )
             repair_started = time.monotonic()

@@ -14,6 +14,9 @@ class LlmRequest:
     api_key_env: str | None = None
     num_ctx: int | None = None
     max_tokens: int | None = None
+    stream: bool = False
+    thinking: dict[str, Any] | None = None
+    reasoning_effort: str | None = None
 
 
 @dataclass
@@ -52,6 +55,33 @@ class LiteLlmClient:
             kwargs["max_tokens"] = request.max_tokens
         if request.num_ctx is not None:
             kwargs["num_ctx"] = request.num_ctx
+        if request.thinking or request.reasoning_effort:
+            # DeepSeek V4 exposes reasoning controls through the OpenAI
+            # compatible request body's extra_body. Keeping this generic means
+            # non-DeepSeek agents can leave both fields unset.
+            extra_body: dict[str, Any] = {}
+            if request.thinking:
+                extra_body["thinking"] = request.thinking
+            if request.reasoning_effort:
+                extra_body["reasoning_effort"] = request.reasoning_effort
+            kwargs["extra_body"] = extra_body
+        if request.stream:
+            # Keep the HTTP response active while a reasoning model prepares a
+            # long answer; Java validation starts only after all chunks arrive.
+            kwargs["stream"] = True
+            stream = completion(**kwargs)
+            content_parts: list[str] = []
+            last_chunk: Any = {}
+            for chunk in stream:
+                last_chunk = chunk
+                choices = _get_value(chunk, "choices") or []
+                if not choices:
+                    continue
+                delta = _get_value(choices[0], "delta") or {}
+                content = _get_value(delta, "content")
+                if content:
+                    content_parts.append(str(content))
+            return LlmResponse(content="".join(content_parts), metadata=_safe_litellm_metadata(last_chunk))
         result = completion(**kwargs)
         message = result["choices"][0]["message"]
         return LlmResponse(content=message.get("content", ""), metadata=_safe_litellm_metadata(result))

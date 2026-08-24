@@ -1,0 +1,92 @@
+Kính gửi tác giả Tuan Dung Nguyen,
+
+Chúng tôi trân trọng thông báo về bài gửi tham gia VNICT 2026 (Hội thảo @ lần thứ XXIX) với thông tin:
+-------------------------------------
+  Số thứ tự (ID) trên EasyChair: 3385
+  Tiêu đề: ARROW: An Adaptive Repository-Aware Repair Workflow for LLM-Based Java Unit Test Generation
+  Tác giả: Tuan Dung Nguyen, Kieu Anh Vuong, Huu Minh Quang Doan, Duc Chinh Ngo, Van Han Tran, Hoang An Nguyen, Thi Nguyet Nguyen
+-------------------------------------
+của anh/chị đã được CHẤP NHẬN đăng trong Kỷ yếu Hội thảo. Các ý kiến nhận xét về bài báo xin mời xem ở cuối email này.
+
+Các tác giả vui lòng đọc kỹ 2 thông tin dưới đây về việc sửa bài và đóng góp kinh phí xuất bản kỷ yếu. THỜI HẠN CUỐI ĐỂ CHÚNG TÔI NHẬN THÔNG TIN LÀ NGÀY 29/8/2026 (THỨ BẢY):
+
+I. VỀ VIỆC SỬA BÀI
+Các tác giả nhanh chóng:
+(1) Đọc kỹ và chỉnh sửa theo các ý kiến phản biện;
+(2) Gửi lại file đã sửa theo định dạng Word hoặc LaTex (nếu kèm hình ảnh, thư viện... thì dịch sẵn .tex -> ra file PDF rồi nén chung tất cả lại thành 1 file dạng .zip) bằng cách REPLY LẠI EMAIL NÀY VÀ GỬI KÈM (CC) ĐẾN ĐỊA CHỈ: ngohaianh@ioit.ac.vn
+Các bài đã được thông báo chấp nhận vẫn có thể bị từ chối xuất bản nếu không sửa đúng yêu cầu phản biện cũng như không tuân thủ các quy định về template viết bài (LƯU Ý: hiện nay có nhiều bài không dùng đúng template hoặc dùng template của hội thảo năm trước, các tác giả vui lòng SỬ DỤNG ĐÚNG MẪU VIẾT BÀI NĂM NAY tại địa chỉ: https://vnict.vn/submission-nop-bai.html)
+
+II. VỀ HÌNH THỨC ĐÓNG CHI PHÍ IN KỶ YẾU HỘI THẢO:
+Ban Tổ chức đề nghị các tác giả những bài được chấp nhận đăng tham gia đóng góp kinh phí với định mức như sau:
+- Với bài báo dài không quá 6 trang (đã bao gồm cả danh mục tài liệu tham khảo) như quy định khi nộp bài: https://vnict.vn/submission-nop-bai.html, là : 1.000.000 đồng (một triệu đồng chẵn).
+- Với bài báo nào có số trang lớn hơn 6, các tác giả đóng thêm n x 500.000 (năm trăm ngàn đồng), với n là tổng số trang vượt thêm.
+Số tiền này đã bao gồm cả hội nghị phí cho 01 người + 01 quyển kỷ yếu, nếu muốn nhận thêm kỷ yếu thì đóng thêm: 500.000 VND (năm trăm nghìn đồng chẵn) cho mỗi quyển in thêm.
+
+Hình thức chuyển tiền: chuyển khoản theo thông tin: Ngo Hai Anh, số TK: 2150418422, BIDV chi nhánh Cầu Giấy.
+Đề nghị ghi rõ lý do chuyển tiền theo mẫu: "VNICT2026 #", trong đó # là số thứ tự (ID) bài báo đã submit trên địa chỉ EasyChair (https://easychair.org/conferences/?conf=vnict2026).
+
+THỜI HẠN CUỐI ĐỂ CHÚNG TÔI NHẬN BÀI SỬA VÀ KINH PHÍ LÀ 29/8/2026 (THỨ BẢY), nếu để quá ngày này thì mặc nhiên chúng tôi sẽ không đưa bài báo của nhóm tác giả đó vào nội dung kỷ yếu được xuất bản.
+
+ĐỂ TIỆN CHO VIỆC THỐNG KÊ, KÍNH ĐỀ NGHỊ CÁC TÁC GIẢ KHI GỬI EMAIL BÀI SỬA THÌ ĐÍNH KÈM LUÔN ẢNH CHỤP MÀN HÌNH CHUYỂN KHOẢN THÀNH CÔNG. DANH SÁCH CÁC BÀI ĐÃ HOÀN THÀNH CẢ 2 VIỆC: GỬI LẠI FILE WORD/LATEX + HOÀN THÀNH HỘI NGHỊ PHÍ SẼ ĐƯỢC CẬP NHẬT MUỘN NHẤT SAU 72h TẠI MỤC "Chương trình": https://vnict.vn/program-chuong-trinh.html
+
+Trân trọng cảm ơn các tác giả đã gửi bài, rất mong được đón tiếp anh/chị tại buổi khai mạc ngày 07/11/2026 tại Trường Đại học Hà Nội, địa chỉ: Km 9, Đường Nguyễn Trãi, Phường Đại Mỗ, Hà Nội.
+
+Ban Thư ký hội thảo.
+==================================================
+
+SUBMISSION: 3385
+TITLE: ARROW: An Adaptive Repository-Aware Repair Workflow for LLM-Based Java Unit Test Generation
+
+----------------------- REVIEW 1 ---------------------
+
+SUBMISSION: 3385
+TITLE: ARROW: An Adaptive Repository-Aware Repair Workflow for LLM-Based Java Unit Test Generation
+
+----------- Overall evaluation -----------
+SCORE: 1 (weak accept)
+----- TEXT:
+1) Tổng quan về bài báo
+
+Bài báo đề xuất ARROW, một workflow sử dụng LLM để sinh unit test Java theo repository context, tự động biên dịch/chạy thử, phân loại lỗi, sửa lặp thích nghi và đánh giá chất lượng test bằng coverage, mutation score và test smells.
+
+2) Ý nghĩa khoa học và ý nghĩa thực tiễn
+
+Bài giải quyết một vấn đề thực tế của LLM-based software engineering: code sinh ra có thể hợp lý về cú pháp nhưng không tương thích build system, framework hoặc dependency của repository. Quy mô 200 class thuộc 200 repository và 1.200 lượt sinh test tương đối tốt đối với một nghiên cứu thực nghiệm. Kết quả cho thấy compilation success ban đầu đạt 70,25%, Adaptive Repair sửa thành công 56,67% candidate lỗi với median hai lần thử. Việc kết hợp JaCoCo, PIT và tsDetect giúp đánh giá test đa chiều thay vì chỉ kiểm tra compile được.
+
+3) Các điểm cần rà soát, chỉnh sửa
+
+Bài khá đầy đủ nhưng cần làm rõ hơn đóng góp riêng của từng thành phần. Chính phần Limitations thừa nhận chưa đánh giá độc lập contribution của các component. Nên bổ sung hoặc ít nhất thảo luận một ablation: repository-aware prompt không repair; generic prompt + repair; repair không rollback; repair không error-signature tracking.
+
+Chất lượng test chỉ được tính đối với các candidate đã vượt qua validation. Điều này tạo selection bias vì các test thất bại hoàn toàn bị loại khỏi coverage/mutation/smell statistics. Tác giả nên nói rõ các giá trị 84,97% line coverage và 57,60% mutation score là conditional on valid generated tests, không đại diện cho toàn bộ 1.200 lượt sinh.
+
+Kết quả cho thấy human-written tests vẫn tốt hơn về fault detection và structural quality. Đây là kết quả quan trọng nên được đưa vào Discussion rõ hơn để tránh tạo cảm giác ARROW đã có khả năng thay thế test do lập trình viên viết.
+
+Ngoài compilation và module pass, cần chú ý semantic correctness của assertion. Một test có thể compile và pass nhưng assertion quá yếu hoặc kiểm tra hành vi sai. Mutation score phần nào giải quyết vấn đề này nhưng chưa đủ; nên xem xét manual audit một subset hoặc sử dụng oracle-quality analysis.
+
+Cần chuẩn hóa mô tả model vì bài đề cập fine-tuned open-source code model nhưng thực nghiệm có nhiều model/prompt configuration, trong đó có GPT-4 và Qwen2.5-Coder. Nên phân biệt rõ model nào là thành phần chính của ARROW và model nào chỉ là baseline.
+
+Inference cost, flaky test và khả năng tích hợp vào CI/CD chưa được đánh giá. Đây nên được ghi rõ là giới hạn chứ không nên suy rộng từ môi trường thực nghiệm sang deployment công nghiệp.
+
+4) Kết luận
+
+Chấp nhận đăng kỷ yếu VNICT 2026 sau khi sửa.
+
+
+----------------------- REVIEW 2 ---------------------
+
+SUBMISSION: 3385
+TITLE: ARROW: An Adaptive Repository-Aware Repair Workflow for LLM-Based Java Unit Test Generation
+
+----------- Overall evaluation -----------
+SCORE: 1 (weak accept)
+----- TEXT:
+Bài báo đề xuất khung làm việc ARROW hỗ trợ tạo và tự động sửa lỗi Unit Test cho ngôn ngữ Java thông qua LLM và cơ chế Prompt nhận biết kho lưu trữ (Repository-Aware). Khung quy trình hệ thống khá logic, tuy nhiên phương pháp thiết kế tập dữ liệu, đo lường chất lượng mã và chi phí thời gian vận hành còn nhiều điểm cần được khắc phục.
+
+Các điểm yếu cần rà soát, chỉnh sửa:
+- Tập dữ liệu tinh chỉnh (fine-tuning) cho Qwen2.5 và tập test 200 mẫu được chia tách theo cấp độ "sample-level" thay vì "repository-level". Điều này gây rò rỉ dữ liệu (data leakage) nghiêm trọng vì mô hình có thể đã ghi nhớ cấu trúc dự án từ pha huấn luyện.
+- Thời gian sửa lỗi tự động (Adaptive Repair) ở mức trung vị 920 giây (hơn 15 phút) cho một Unit Test là chi phí thời gian quá lớn, thiếu tính khả thi.
+- Chỉ số độ phủ mã (Code Coverage) và điểm đột biến (Mutation Score) chỉ được tính toán trên các bài test đã biên dịch hợp lệ. Việc lọc bỏ các test lỗi trước khi đánh giá làm phóng đại chất lượng bao phủ thực tế của toàn bộ khung hệ thống.
+- Mâu thuẫn trong chất lượng sinh mã vì mặc dù độ phủ mã sinh ra khá cao, Mutation Score (khoảng 61%) lại thấp hơn đáng kể so với bài test do con người viết (69.1%). Tác giả cần phân tích và hiệu chỉnh prompt để LLM tạo ra các câu lệnh assert chặt chẽ hơn.
+- Đánh giá Test Smell thông qua công cụ tsDetect thiếu đi hệ quy chiếu và đường cơ sở. Cần bổ sung so sánh trực tiếp chỉ số "Smell Density" với các công cụ sinh test chuẩn mực hiện hành (như EvoSuite).
+
+Kết luận: đồng ý đăng kỷ yếu sau khi t/giả xem xét chỉnh sửa như góp ý.

@@ -7,6 +7,75 @@ fail, sau do ghi report.
 
 Pipeline nay khong phu thuoc code trong `mini-agonetest`.
 
+## EvoSuite baseline cho RQ3
+
+Runner `run_evosuite.py` chạy EvoSuite standalone trên đúng từng hàng của
+`shards/repo_shard_05_manifest.csv`. Runner không sửa `pom.xml` hoặc
+`build.gradle` của repository. Mỗi sample được kiểm tra baseline trước, sau đó
+runner lấy classpath của đúng module, sinh test với seed/budget cố định, biên
+dịch test cùng EvoSuite runtime và chạy bằng JUnit. Mọi timeout/failure vẫn được
+ghi vào JSONL/CSV.
+
+Tải công cụ một lần:
+
+```bash
+python3 run_evosuite.py --download-tools --setup-only
+```
+
+Khóa và kiểm tra 200 hàng mà chưa clone/build:
+
+```bash
+python3 run_evosuite.py --dry-run
+```
+
+Chạy thử một sample:
+
+```bash
+python3 run_evosuite.py \
+  --run-id evosuite-smoke \
+  --limit 1 \
+  --workers 1 \
+  --search-budget 60 \
+  --keep-repo-cache
+```
+
+Chạy đủ bộ (MacBook 48 GB nên bắt đầu với 2 worker):
+
+```bash
+python3 run_evosuite.py \
+  --run-id evosuite-rq3-seed42 \
+  --workers 2 \
+  --search-budget 120 \
+  --seeds 42
+```
+
+Nếu lệnh bị dừng, chạy lại đúng `--run-id`; mặc định runner đọc
+`evosuite_records.jsonl` và bỏ qua record đã hoàn tất. Kết quả chính nằm trong
+`runs/evosuite/<run-id>/evosuite_records.jsonl`, bản CSV dùng để tổng hợp bảng
+ở `evosuite_records.csv`, và tỷ lệ CSR/ESR/TPR/valid ở `summary.json`.
+
+Chạy lại riêng lỗi hạ tầng/classpath sau khi đã sửa môi trường, đồng thời thay
+record cũ thay vì ghi trùng:
+
+```bash
+python3 run_evosuite.py \
+  --run-id evosuite-rq3-seed42 \
+  --workers 2 \
+  --search-budget 120 \
+  --seeds 42 \
+  --rerun-status TOOL_ERROR \
+  --rerun-status CLASSPATH_FAILED
+```
+
+Không dùng `--no-resume` cho trường hợp này vì tùy chọn đó chạy lại toàn bộ
+manifest. Một repository đã bị xóa, dependency/plugin lịch sử không còn tải
+được, hoặc test cần database/Docker không được cấu hình vẫn phải được ghi nhận
+là lỗi môi trường; runner không đổi các lỗi đó thành kết quả EvoSuite.
+
+Trường `evosuite_coverage` là coverage nội bộ của objective tìm kiếm EvoSuite,
+không phải line/branch coverage đo bằng JaCoCo và không phải mutation score của
+PIT. Không chép trường này vào cột JaCoCo/PIT của bài báo.
+
 Pipeline chay duoc tren ca Windows va Ubuntu. Code Java do LLM tra ve duoc
 chuan hoa CRLF/LF va kiem tra block, comment, literal, dau ngoac truoc khi goi
 Maven/Gradle. Neu response bi cat giua chung (`reached end of file while

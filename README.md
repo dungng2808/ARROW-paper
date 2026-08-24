@@ -13,7 +13,7 @@ Mở terminal tại thư mục `workspace`, sau đó chạy lần lượt:
 git init
 
 # 2. Kết nối với repository trên GitHub
-git remote add origin https://github.com/dungng2808/ARROW.git
+git remote add origin https://github.com/dungng2808/ARROW-paper
 
 # 3. Đặt tên nhánh chính là main
 git branch -M main

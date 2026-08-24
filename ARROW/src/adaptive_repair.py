@@ -125,6 +125,9 @@ class RepairRuntime:
     temperature: float = 0.0
     num_ctx: int | None = None
     max_tokens: int | None = None
+    stream: bool = False
+    thinking: dict[str, Any] | None = None
+    reasoning_effort: str | None = None
     token_usage_by_prompt: dict[str, dict[str, int]] = field(default_factory=dict)
     attempted_hashes: set[str] = field(default_factory=set)
     failed_signatures: list[str] = field(default_factory=list)
@@ -204,6 +207,9 @@ def _call_llm(runtime: RepairRuntime, prompt: str, prompt_name: str) -> str:
             api_key_env=runtime.api_key_env,
             num_ctx=runtime.num_ctx,
             max_tokens=runtime.max_tokens,
+            stream=runtime.stream,
+            thinking=runtime.thinking,
+            reasoning_effort=runtime.reasoning_effort,
         )
     )
     usage = record_token_usage(runtime.token_usage_by_prompt, prompt_name, response.metadata)

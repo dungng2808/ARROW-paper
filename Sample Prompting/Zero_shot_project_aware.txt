@@ -15,5 +15,10 @@ Hard requirements:
 - Use only APIs, constructors, methods, imports, and dependencies visible in Context JSON.
 - Prefer project-compatible imports and assertions over modern APIs that may not exist in the project.
 - Prefer a small deterministic test that compiles over a broad fragile test.
+- Derive expected outcomes from the focal class's public behavior and the project context; do not invent an oracle that is unsupported by the available code.
+- For each test scenario, include at least one behavior-specific assertion over an observable return value, state change, or side effect.
+- Cover boundary values and exceptional behavior when they are supported by the public contract or implementation context.
+- Avoid weak or tautological assertions such as `assertNotNull` used as the only oracle, `assertTrue(true)`, comparisons of a value with itself, or assertions over constants unrelated to the executed behavior.
+- Prefer exact or semantically meaningful expected values over assertions that merely confirm that execution completed.
 
 When existing tests are provided in Context JSON, mirror their framework style, imports, and assertion library, but do not copy the original test verbatim.
