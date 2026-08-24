@@ -1,0 +1,109 @@
+{
+  "run_id": "evosuite-clean-200-part-3",
+  "created_at_utc": "2026-08-24T08:13:38.417310+00:00",
+  "mode": "integrated-per-sample",
+  "manifest": "D:\\Ky9\\Sample\\ARROW\\shards\\clean-samples-seed42\\final\\final_manifest_200.csv",
+  "manifest_sha256": "e067e8a8501e0396fe52d84627a6770ca1342792d8b8ead1723ce2c1454aa0d0",
+  "manifest_samples": 200,
+  "dataset": "D:\\Ky9\\Sample\\ARROW\\shards\\clean-samples-seed42\\dataset",
+  "dataset_snapshot": true,
+  "shard_count": 5,
+  "shard_index": 3,
+  "shard_samples": 40,
+  "selected_this_run": 40,
+  "seeds": [
+    42
+  ],
+  "expected_records": 40,
+  "workers": 2,
+  "search_budget_seconds": 120,
+  "generation_timeout_seconds": 600,
+  "build_timeout_seconds": 900,
+  "test_timeout_seconds": 300,
+  "coverage_timeout_seconds": 600,
+  "mutation_timeout_seconds": 1800,
+  "smell_timeout_seconds": 900,
+  "memory_mb_per_worker": 2048,
+  "pit_threads_per_worker": 1,
+  "criterion": "BRANCH",
+  "evosuite_tools": {
+    "evosuite": {
+      "path": "D:\\Ky9\\Sample\\ARROW\\tools\\evosuite\\evosuite-1.2.0.jar",
+      "sha256": "0bc0062fdec70c35089ad736c9b88ccf87308c2f0aaaafe43176f3c4a89ddeba",
+      "bytes": 19766471
+    },
+    "runtime": {
+      "path": "D:\\Ky9\\Sample\\ARROW\\tools\\evosuite\\evosuite-standalone-runtime-1.2.0.jar",
+      "sha256": "cc856a6d02b391367d2a4516346c699c67e4b4a370203471df1f3d78b46b74dc",
+      "bytes": 7374608
+    },
+    "junit": {
+      "path": "D:\\Ky9\\Sample\\ARROW\\tools\\evosuite\\junit-4.13.2.jar",
+      "sha256": "8e495b634469d64fb8acfa3495a065cbacc8a0fff55ce1e31007be4c16dc57d3",
+      "bytes": 384581
+    },
+    "hamcrest": {
+      "path": "D:\\Ky9\\Sample\\ARROW\\tools\\evosuite\\hamcrest-core-1.3.jar",
+      "sha256": "66fdef91e9739348df7a096aa384a5685f4e875584cce89386a7a47251c4d8e9",
+      "bytes": 45024
+    }
+  },
+  "quality_tools": {
+    "jacoco_version": "0.8.12",
+    "pitest_version": "1.17.4",
+    "files": {
+      "jacoco_agent": {
+        "path": "D:\\Ky9\\Sample\\ARROW\\tools\\quality\\org.jacoco.agent-0.8.12-runtime.jar",
+        "sha256": "115e8e6e6593ca3a9892dfef695df4d487c706e59e71e64dc0ab95716ee02622",
+        "bytes": 302428
+      },
+      "jacoco_cli": {
+        "path": "D:\\Ky9\\Sample\\ARROW\\tools\\quality\\org.jacoco.cli-0.8.12-nodeps.jar",
+        "sha256": "594c01125b84864a7fc5a9efab19b71b7de36b27346863f6d7cd0cd45400ceb0",
+        "bytes": 586283
+      },
+      "pitest-command-line-1.17.4.jar": {
+        "path": "D:\\Ky9\\Sample\\ARROW\\tools\\quality\\pitest\\pitest-command-line-1.17.4.jar",
+        "sha256": "a1785b9ec46daf34685b63b9702c1b94f052fa90d74cc1a84f20944894e34ccc",
+        "bytes": 742741
+      },
+      "pitest-entry-1.17.4.jar": {
+        "path": "D:\\Ky9\\Sample\\ARROW\\tools\\quality\\pitest\\pitest-entry-1.17.4.jar",
+        "sha256": "809c1cf0b83c14e5c5cdb8d70c2c231db24499243263e18474436e30c23657eb",
+        "bytes": 783857
+      },
+      "pitest-html-report-1.17.4.jar": {
+        "path": "D:\\Ky9\\Sample\\ARROW\\tools\\quality\\pitest\\pitest-html-report-1.17.4.jar",
+        "sha256": "50882b3610de9bfaf1e2de62c101e4b41db8ebdca6caa836b55d05f362aa1eb9",
+        "bytes": 658425
+      },
+      "pitest-1.17.4.jar": {
+        "path": "D:\\Ky9\\Sample\\ARROW\\tools\\quality\\pitest\\pitest-1.17.4.jar",
+        "sha256": "97082da0ae5283f564b3f51652c39f4f1d235eb3b019384d11eb5d4fc0e4219e",
+        "bytes": 619977
+      },
+      "commons-text-1.12.0.jar": {
+        "path": "D:\\Ky9\\Sample\\ARROW\\tools\\quality\\pitest\\commons-text-1.12.0.jar",
+        "sha256": "de023257ff166044a56bd1aa9124e843cd05dac5806cc705a9311f3556d5a15f",
+        "bytes": 251227
+      },
+      "commons-lang3-3.14.0.jar": {
+        "path": "D:\\Ky9\\Sample\\ARROW\\tools\\quality\\pitest\\commons-lang3-3.14.0.jar",
+        "sha256": "7b96bf3ee68949abb5bc465559ac270e0551596fa34523fddf890ec418dde13c",
+        "bytes": 657952
+      }
+    }
+  },
+  "tsdetect": {
+    "name": "tsDetect/TestSmellDetector",
+    "version": "2.2",
+    "url": "https://github.com/TestSmells/TestSmellDetector/releases/download/v2.2/TestSmellDetector.jar",
+    "path": "D:\\Ky9\\Sample\\ARROW\\tools\\tsdetect\\TestSmellDetector.jar",
+    "sha256": "6a12de6d1613c7ee9e845a2b69d876834f8ee98379e85d38c0e6027f7110f7bc",
+    "bytes": 2383807
+  },
+  "smell_java_home": "D:\\Ky9\\Sample\\ARROW\\Java-version\\java-11",
+  "runner_sha256": "f3ec6ae3b60b8fbc186396b882613d5717e94de8b598295f98b99318fff36481",
+  "library_sha256": "11375df6c2c119d6b78666840023bd5828da7e6a0f6001d095fd922b7618f01f",
+  "repo_lifecycle": "clone once per sample; generate; JaCoCo; PIT; tsDetect; delete cache"
+}
