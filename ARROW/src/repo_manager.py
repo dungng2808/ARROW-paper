@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 import shutil
 import subprocess
@@ -10,8 +11,15 @@ from .fs_utils import ensure_dir
 
 
 def _retry_remove_readonly(function, path, _exc_info) -> None:
-    Path(path).chmod(stat.S_IWRITE)
-    function(path)
+    try:
+        target = Path(path)
+        if target.exists():
+            target.chmod(stat.S_IWRITE)
+        function(path)
+    except FileNotFoundError:
+        pass
+    except Exception:
+        pass
 
 
 def safe_remove_tree(path: Path, allowed_root: Path) -> bool:
@@ -72,9 +80,10 @@ def _make_build_wrappers_executable(root: Path) -> None:
             wrapper.chmod(wrapper.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
 
 
-def _ensure_git_history_for_build(repository: Path) -> None:
+def _ensure_git_history_for_build(repository: Path, timeout_seconds: int = 90) -> None:
     if not _repository_requires_git_metadata(repository):
         return
+    git_env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
     result = subprocess.run(
         ["git", "rev-parse", "--is-shallow-repository"],
         cwd=repository,
@@ -83,14 +92,17 @@ def _ensure_git_history_for_build(repository: Path) -> None:
         encoding="utf-8",
         errors="replace",
         check=True,
+        env=git_env,
+        stdin=subprocess.DEVNULL,
     )
     if result.stdout.strip().lower() == "true":
-        subprocess.run(["git", "fetch", "--unshallow", "--tags"], cwd=repository, check=True)
+        subprocess.run(["git", "fetch", "--unshallow", "--tags"], cwd=repository, check=True, timeout=timeout_seconds, env=git_env, stdin=subprocess.DEVNULL)
 
 
-def _ensure_full_git_history(repository: Path) -> None:
+def _ensure_full_git_history(repository: Path, timeout_seconds: int = 90) -> None:
     if not (repository / ".git").exists():
         return
+    git_env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
     result = subprocess.run(
         ["git", "rev-parse", "--is-shallow-repository"],
         cwd=repository,
@@ -99,9 +111,11 @@ def _ensure_full_git_history(repository: Path) -> None:
         encoding="utf-8",
         errors="replace",
         check=True,
+        env=git_env,
+        stdin=subprocess.DEVNULL,
     )
     if result.stdout.strip().lower() == "true":
-        subprocess.run(["git", "fetch", "--unshallow", "--tags"], cwd=repository, check=True)
+        subprocess.run(["git", "fetch", "--unshallow", "--tags"], cwd=repository, check=True, timeout=timeout_seconds, env=git_env, stdin=subprocess.DEVNULL)
 
 
 def _repo_relative_candidates(relative: str) -> list[Path]:
@@ -191,20 +205,27 @@ def copy_isolated_workspace(source_repo: Path, experiment_workspace: Path) -> Pa
     return experiment_workspace
 
 
-def clone_repo(repo_url: str, destination: Path, checkout: str | None = None) -> Path:
+def clone_repo(repo_url: str, destination: Path, checkout: str | None = None, timeout_seconds: int = 120) -> Path:
     if destination.exists():
         _ensure_git_history_for_build(destination)
         _make_build_wrappers_executable(destination)
         return destination
     ensure_dir(destination.parent)
+    git_env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
     try:
-        subprocess.run(["git", "-c", "core.longpaths=true", "clone", "--depth", "1", repo_url, str(destination)], check=True)
-    except subprocess.CalledProcessError:
+        subprocess.run(
+            ["git", "-c", "core.longpaths=true", "clone", "--depth", "1", repo_url, str(destination)],
+            check=True,
+            timeout=timeout_seconds,
+            env=git_env,
+            stdin=subprocess.DEVNULL,
+        )
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
         if destination.exists():
             safe_remove_tree(destination, destination.parent)
         raise
     if checkout:
-        subprocess.run(["git", "checkout", checkout], cwd=destination, check=True)
+        subprocess.run(["git", "checkout", checkout], cwd=destination, check=True, timeout=60, env=git_env, stdin=subprocess.DEVNULL)
     _ensure_git_history_for_build(destination)
     _make_build_wrappers_executable(destination)
     return destination
