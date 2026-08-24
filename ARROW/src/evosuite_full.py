@@ -97,7 +97,7 @@ def strict_smell_values(row: dict[str, str]) -> dict[str, int]:
 def _evosuite_test_source(artifact_dir: Path) -> Path:
     candidates = [
         path
-        for path in (artifact_dir / "evosuite-tests").rglob("*_ESTest.java")
+        for path in (artifact_dir / "tst").rglob("*_ESTest.java")
         if not path.stem.endswith("_scaffolding")
     ]
     if len(candidates) != 1:
@@ -174,7 +174,7 @@ def run_smell_sample(
         if not detector.is_file():
             raise FileNotFoundError(f"Không tìm thấy tsDetect: {detector}")
         artifact_dir = Path(str(source_record.get("artifact_dir") or ""))
-        smell_root = artifact_dir / "tsdetect"
+        smell_root = artifact_dir / "ts"
         smell_root.mkdir(parents=True, exist_ok=True)
         cache_root = root / str(config.get("repo", {}).get("repos_dir", "repos"))
         cached_repo = cache_root / str(source_record.get("project_id") or "")

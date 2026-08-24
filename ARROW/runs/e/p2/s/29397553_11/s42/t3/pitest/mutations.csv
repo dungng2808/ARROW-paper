@@ -1,0 +1,9 @@
+AveragePrecision.java,es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,org.pitest.mutationtest.engine.gregor.mutators.IncrementsMutator,evaluate,63,NO_COVERAGE,none
+AveragePrecision.java,es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,org.pitest.mutationtest.engine.gregor.mutators.IncrementsMutator,evaluate,65,NO_COVERAGE,none
+AveragePrecision.java,es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,org.pitest.mutationtest.engine.gregor.mutators.MathMutator,evaluate,66,NO_COVERAGE,none
+AveragePrecision.java,es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,org.pitest.mutationtest.engine.gregor.mutators.MathMutator,evaluate,66,NO_COVERAGE,none
+AveragePrecision.java,es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,org.pitest.mutationtest.engine.gregor.mutators.MathMutator,evaluate,73,NO_COVERAGE,none
+AveragePrecision.java,es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,evaluate,54,NO_COVERAGE,none
+AveragePrecision.java,es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,evaluate,64,NO_COVERAGE,none
+AveragePrecision.java,es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,evaluate,68,NO_COVERAGE,none
+AveragePrecision.java,es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,org.pitest.mutationtest.engine.gregor.mutators.returns.PrimitiveReturnsMutator,evaluate,73,NO_COVERAGE,none

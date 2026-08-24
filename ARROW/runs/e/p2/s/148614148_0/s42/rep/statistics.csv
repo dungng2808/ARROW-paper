@@ -1,0 +1,2 @@
+TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time
+com.zhuinden.commandqueue.CommandQueue,BRANCH,0.8913043478260869,46,41,12,48,184560

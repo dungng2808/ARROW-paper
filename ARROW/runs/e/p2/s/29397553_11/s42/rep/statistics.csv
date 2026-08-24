@@ -1,0 +1,2 @@
+TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time
+es.uam.eps.ir.ranksys.metrics.basic.AveragePrecision,BRANCH,0.5555555555555556,9,5,3,25,151998

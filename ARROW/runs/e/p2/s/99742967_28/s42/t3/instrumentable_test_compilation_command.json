@@ -1,0 +1,12 @@
+[
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\Java-version\\java-8\\bin\\javac.exe",
+  "-encoding",
+  "UTF-8",
+  "-cp",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\99742967_28\\s42\\t3\\w\\type-safe\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\99742967_28\\s42\\t3\\w\\type-safe\\target\\test-classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\evosuite\\evosuite-standalone-runtime-1.2.0.jar;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\evosuite\\junit-4.13.2.jar;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\evosuite\\hamcrest-core-1.3.jar",
+  "-d",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\99742967_28\\s42\\t3\\compiled-tests",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\99742967_28\\s42\\t3\\instrumentable-tests\\software\\amazon\\swage\\collection\\ImmutableTypedMap_ESTest.java",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\99742967_28\\s42\\t3\\instrumentable-tests\\software\\amazon\\swage\\collection\\ImmutableTypedMap_ESTest_scaffolding.java",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\99742967_28\\s42\\t3\\instrumentable-tests\\arrow\\quality\\ArrowEvoRunner.java"
+]

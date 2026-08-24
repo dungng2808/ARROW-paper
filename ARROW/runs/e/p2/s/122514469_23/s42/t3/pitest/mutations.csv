@@ -1,0 +1,4 @@
+BooleanParser.java,io.github.leberkleber.ljcm.parser.impl.BooleanParser,org.pitest.mutationtest.engine.gregor.mutators.returns.EmptyObjectReturnValsMutator,getResponsibleClasses,17,KILLED,io.github.leberkleber.ljcm.parser.impl.BooleanParser_ESTest
+BooleanParser.java,io.github.leberkleber.ljcm.parser.impl.BooleanParser,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,parseValue,22,KILLED,io.github.leberkleber.ljcm.parser.impl.BooleanParser_ESTest
+BooleanParser.java,io.github.leberkleber.ljcm.parser.impl.BooleanParser,org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanFalseReturnValsMutator,parseValue,26,KILLED,io.github.leberkleber.ljcm.parser.impl.BooleanParser_ESTest
+BooleanParser.java,io.github.leberkleber.ljcm.parser.impl.BooleanParser,org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanTrueReturnValsMutator,parseValue,26,KILLED,io.github.leberkleber.ljcm.parser.impl.BooleanParser_ESTest

@@ -1,0 +1,22 @@
+[
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\Java-version\\java-8\\bin\\java.exe",
+  "-Xmx2048m",
+  "-jar",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\evosuite\\evosuite-1.2.0.jar",
+  "-class",
+  "io.github.bonigarcia.LoginService",
+  "-projectCP",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\106371845_6\\bw\\junit4-mockito\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\106371845_6\\bw\\junit4-mockito\\target\\test-classes",
+  "-criterion",
+  "BRANCH",
+  "-seed",
+  "42",
+  "-Dsearch_budget=120",
+  "-Dstopping_condition=MaxTime",
+  "-Dtest_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\106371845_6\\s42\\tst",
+  "-Dreport_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\106371845_6\\s42\\rep",
+  "-Dstatistics_backend=CSV",
+  "-Doutput_variables=TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time",
+  "-Dassertions=true",
+  "-Dminimize=true"
+]

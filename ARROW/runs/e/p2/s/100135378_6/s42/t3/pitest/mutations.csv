@@ -1,0 +1,2 @@
+Defaults.java,org.hildan.livedoc.core.util.Defaults,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,defaultValueFor,24,SURVIVED,none
+Defaults.java,org.hildan.livedoc.core.util.Defaults,org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator,defaultValueFor,27,SURVIVED,none

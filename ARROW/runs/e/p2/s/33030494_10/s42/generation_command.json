@@ -1,0 +1,22 @@
+[
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\Java-version\\java-8\\bin\\java.exe",
+  "-Xmx2048m",
+  "-jar",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\evosuite\\evosuite-1.2.0.jar",
+  "-class",
+  "org.intelligentjava.algos.trees.ScapegoatTree",
+  "-projectCP",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\33030494_10\\bw\\Trees\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\33030494_10\\bw\\Trees\\target\\test-classes;C:\\Users\\pc\\.m2\\repository\\org\\openjdk\\jmh\\jmh-core\\1.21\\jmh-core-1.21.jar;C:\\Users\\pc\\.m2\\repository\\net\\sf\\jopt-simple\\jopt-simple\\4.6\\jopt-simple-4.6.jar;C:\\Users\\pc\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.2\\commons-math3-3.2.jar;C:\\Users\\pc\\.m2\\repository\\junit\\junit\\4.11\\junit-4.11.jar;C:\\Users\\pc\\.m2\\repository\\org\\hamcrest\\hamcrest-core\\1.3\\hamcrest-core-1.3.jar",
+  "-criterion",
+  "BRANCH",
+  "-seed",
+  "42",
+  "-Dsearch_budget=120",
+  "-Dstopping_condition=MaxTime",
+  "-Dtest_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\33030494_10\\s42\\tst",
+  "-Dreport_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\33030494_10\\s42\\rep",
+  "-Dstatistics_backend=CSV",
+  "-Doutput_variables=TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time",
+  "-Dassertions=true",
+  "-Dminimize=true"
+]

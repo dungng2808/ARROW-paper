@@ -1,0 +1,4 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+JaCoCo Coverage Report,com.lazerycode.ebselen.codegenerators,WebElementGenerator.GetLocation,0,57,0,0,0,4,0,4,0,4
+JaCoCo Coverage Report,com.lazerycode.ebselen.codegenerators,WebElementGenerator.GetSize,0,57,0,0,0,4,0,4,0,4
+JaCoCo Coverage Report,com.lazerycode.ebselen.codegenerators,WebElementGenerator,0,199,0,0,0,21,0,14,0,14

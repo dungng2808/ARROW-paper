@@ -1,0 +1,6 @@
+HzUnitOfWorkJournal.java,org.myeslib.hazelcast.storage.HzUnitOfWorkJournal,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,append,35,NO_COVERAGE,none
+HzUnitOfWorkJournal.java,org.myeslib.hazelcast.storage.HzUnitOfWorkJournal,org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator,append,43,NO_COVERAGE,none
+HzUnitOfWorkJournal.java,org.myeslib.hazelcast.storage.HzUnitOfWorkJournal,org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator,append,44,NO_COVERAGE,none
+HzUnitOfWorkJournal.java,org.myeslib.hazelcast.storage.HzUnitOfWorkJournal,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,getHistoryFor,51,NO_COVERAGE,none
+HzUnitOfWorkJournal.java,org.myeslib.hazelcast.storage.HzUnitOfWorkJournal,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,getHistoryFor,54,NO_COVERAGE,none
+HzUnitOfWorkJournal.java,org.myeslib.hazelcast.storage.HzUnitOfWorkJournal,org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator,getHistoryFor,54,NO_COVERAGE,none

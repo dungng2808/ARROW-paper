@@ -1,0 +1,22 @@
+[
+  "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath\\java.exe",
+  "-Xmx2048m",
+  "-jar",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\evosuite\\evosuite-1.2.0.jar",
+  "-class",
+  "com.oneandone.snmpman.configuration.modifier.ModifiedVariable",
+  "-projectCP",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\18560435_8\\bw\\snmpman\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\18560435_8\\bw\\snmpman\\target\\test-classes;C:\\Users\\pc\\.m2\\repository\\org\\snmp4j\\snmp4j\\3.7.8\\snmp4j-3.7.8.jar;C:\\Users\\pc\\.m2\\repository\\org\\snmp4j\\snmp4j-agent\\3.0.3\\snmp4j-agent-3.0.3.jar;C:\\Users\\pc\\.m2\\repository\\com\\fasterxml\\jackson\\jaxrs\\jackson-jaxrs-json-provider\\2.16.1\\jackson-jaxrs-json-provider-2.16.1.jar;C:\\Users\\pc\\.m2\\repository\\com\\fasterxml\\jackson\\jaxrs\\jackson-jaxrs-base\\2.16.1\\jackson-jaxrs-base-2.16.1.jar;C:\\Users\\pc\\.m2\\repository\\com\\fasterxml\\jackson\\module\\jackson-module-jaxb-annotations\\2.16.1\\jackson-module-jaxb-annotations-2.16.1.jar;C:\\Users\\pc\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-annotations\\2.16.1\\jackson-annotations-2.16.1.jar;C:\\Users\\pc\\.m2\\repository\\jakarta\\xml\\bind\\jakarta.xml.bind-api\\2.3.3\\jakarta.xml.bind-api-2.3.3.jar;C:\\Users\\pc\\.m2\\repository\\jakarta\\activation\\jakarta.activation-api\\1.2.2\\jakarta.activation-api-1.2.2.jar;C:\\Users\\pc\\.m2\\repository\\com\\fasterxml\\jackson\\dataformat\\jackson-dataformat-yaml\\2.16.1\\jackson-dataformat-yaml-2.16.1.jar;C:\\Users\\pc\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-databind\\2.16.1\\jackson-databind-2.16.1.jar;C:\\Users\\pc\\.m2\\repository\\org\\yaml\\snakeyaml\\2.2\\snakeyaml-2.2.jar;C:\\Users\\pc\\.m2\\repository\\com\\fasterxml\\jackson\\core\\jackson-core\\2.16.1\\jackson-core-2.16.1.jar;C:\\Users\\pc\\.m2\\repository\\org\\slf4j\\slf4j-api\\2.0.12\\slf4j-api-2.0.12.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\guava\\guava\\33.0.0-jre\\guava-33.0.0-jre.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\guava\\failureaccess\\1.0.2\\failureaccess-1.0.2.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\guava\\listenablefuture\\9999.0-empty-to-avoid-conflict-with-guava\\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\code\\findbugs\\jsr305\\3.0.2\\jsr305-3.0.2.jar;C:\\Users\\pc\\.m2\\repository\\org\\checkerframework\\checker-qual\\3.41.0\\checker-qual-3.41.0.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\errorprone\\error_prone_annotations\\2.23.0\\error_prone_annotations-2.23.0.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\j2objc\\j2objc-annotations\\2.8\\j2objc-annotations-2.8.jar",
+  "-criterion",
+  "BRANCH",
+  "-seed",
+  "42",
+  "-Dsearch_budget=120",
+  "-Dstopping_condition=MaxTime",
+  "-Dtest_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\18560435_8\\s42\\tst",
+  "-Dreport_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\18560435_8\\s42\\rep",
+  "-Dstatistics_backend=CSV",
+  "-Doutput_variables=TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time",
+  "-Dassertions=true",
+  "-Dminimize=true"
+]

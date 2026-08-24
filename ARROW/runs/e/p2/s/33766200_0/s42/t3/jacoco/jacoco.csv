@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicyFinderFactory,30,0,0,0,7,0,5,0,5,0
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicyIdReference,45,0,6,0,16,0,9,0,6,0
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicyIdReferenceBase,110,0,8,0,32,0,16,0,12,0
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicySetChild,115,0,6,0,37,0,17,0,14,0
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicyDef,533,0,86,0,160,0,83,0,40,0
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,Policy,123,302,25,17,28,70,16,31,2,23
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicySet,359,0,48,0,93,0,47,0,22,0
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicyComponent,98,0,8,0,31,0,13,0,9,0
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicyDefaults,88,0,10,0,29,0,10,0,5,0
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicySetIdReference,45,0,6,0,16,0,9,0,6,0
+JaCoCo Coverage Report,org.apache.openaz.xacml.pdp.policy,PolicyIssuer,144,0,16,0,40,0,19,0,11,0

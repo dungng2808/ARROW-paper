@@ -1,0 +1,2 @@
+TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time
+net.unicon.cas.mfa.authentication.DefaultRegisteredServiceMfaRoleProcessorImpl,BRANCH,0.05714285714285714,70,4,1,3,143023

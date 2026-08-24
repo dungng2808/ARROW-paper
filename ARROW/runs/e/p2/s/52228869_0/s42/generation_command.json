@@ -1,0 +1,22 @@
+[
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\Java-version\\java-21\\bin\\java.exe",
+  "-Xmx2048m",
+  "-jar",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\evosuite\\evosuite-1.2.0.jar",
+  "-class",
+  "de.mc.ladon.s3server.auth.AuthKeyGen",
+  "-projectCP",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\52228869_0\\bw\\ladon-s3-server\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\52228869_0\\bw\\ladon-s3-server\\target\\test-classes;C:\\Users\\pc\\.m2\\repository\\com\\google\\guava\\guava\\33.4.0-jre\\guava-33.4.0-jre.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\guava\\failureaccess\\1.0.2\\failureaccess-1.0.2.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\guava\\listenablefuture\\9999.0-empty-to-avoid-conflict-with-guava\\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\code\\findbugs\\jsr305\\3.0.2\\jsr305-3.0.2.jar;C:\\Users\\pc\\.m2\\repository\\org\\checkerframework\\checker-qual\\3.43.0\\checker-qual-3.43.0.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\errorprone\\error_prone_annotations\\2.36.0\\error_prone_annotations-2.36.0.jar;C:\\Users\\pc\\.m2\\repository\\com\\google\\j2objc\\j2objc-annotations\\3.0.0\\j2objc-annotations-3.0.0.jar;C:\\Users\\pc\\.m2\\repository\\jakarta\\xml\\bind\\jakarta.xml.bind-api\\4.0.2\\jakarta.xml.bind-api-4.0.2.jar;C:\\Users\\pc\\.m2\\repository\\jakarta\\activation\\jakarta.activation-api\\2.1.3\\jakarta.activation-api-2.1.3.jar;C:\\Users\\pc\\.m2\\repository\\org\\apache\\servicemix\\bundles\\org.apache.servicemix.bundles.jaxb-impl\\2.2.11_1\\org.apache.servicemix.bundles.jaxb-impl-2.2.11_1.jar;C:\\Users\\pc\\.m2\\repository\\org\\apache\\servicemix\\specs\\org.apache.servicemix.specs.stax-api-1.0\\1.0.0\\org.apache.servicemix.specs.stax-api-1.0-1.0.0.jar;C:\\Users\\pc\\.m2\\repository\\org\\apache\\servicemix\\specs\\org.apache.servicemix.specs.jaxb-api-2.2\\1.6.0\\org.apache.servicemix.specs.jaxb-api-2.2-1.6.0.jar;C:\\Users\\pc\\.m2\\repository\\javax\\xml\\stream\\stax-api\\1.0-2\\stax-api-1.0-2.jar;C:\\Users\\pc\\.m2\\repository\\jakarta\\servlet\\jakarta.servlet-api\\6.1.0\\jakarta.servlet-api-6.1.0.jar;C:\\Users\\pc\\.m2\\repository\\org\\slf4j\\slf4j-api\\2.0.16\\slf4j-api-2.0.16.jar",
+  "-criterion",
+  "BRANCH",
+  "-seed",
+  "42",
+  "-Dsearch_budget=120",
+  "-Dstopping_condition=MaxTime",
+  "-Dtest_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\52228869_0\\s42\\tst",
+  "-Dreport_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\52228869_0\\s42\\rep",
+  "-Dstatistics_backend=CSV",
+  "-Doutput_variables=TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time",
+  "-Dassertions=true",
+  "-Dminimize=true"
+]

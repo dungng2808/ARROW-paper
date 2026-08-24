@@ -1,0 +1,2 @@
+TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time
+org.apache.openaz.xacml.pdp.policy.Policy,BRANCH,0.5205479452054794,73,38,18,55,184815

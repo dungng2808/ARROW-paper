@@ -1,0 +1,6 @@
+[
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\Java-version\\java-11\\bin\\java.exe",
+  "-jar",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\tsdetect\\TestSmellDetector.jar",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\2329961_18\\s42\\ts\\pathToInputFile.csv"
+]

@@ -1,0 +1,12 @@
+[
+  "D:\\ki9\\SEP490\\apache-maven-3.9.16\\bin\\mvn.cmd",
+  "-f",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\29397553_11\\s42\\t3\\w\\pom.xml",
+  "-pl",
+  "RankSys-metrics",
+  "-am",
+  "-DincludeScope=runtime",
+  "-Dmdep.outputAbsoluteArtifactFilename=true",
+  "-Dmdep.outputFile=target/arrow-evosuite-classpath.txt",
+  "org.apache.maven.plugins:maven-dependency-plugin:3.8.1:build-classpath"
+]

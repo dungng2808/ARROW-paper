@@ -1,0 +1,13 @@
+[
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\Java-version\\java-8\\bin\\java.exe",
+  "-jar",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\quality\\org.jacoco.cli-0.8.12-nodeps.jar",
+  "report",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\2329961_18\\s42\\t3\\jacoco\\jacoco.exec",
+  "--classfiles",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\2329961_18\\s42\\t3\\jacoco\\focal-classes",
+  "--sourcefiles",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\2329961_18\\s42\\t3\\w\\cn-service\\src\\main\\java",
+  "--csv",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\2329961_18\\s42\\t3\\jacoco\\jacoco.csv"
+]

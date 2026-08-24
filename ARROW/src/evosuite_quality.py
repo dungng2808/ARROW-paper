@@ -512,8 +512,8 @@ def run_quality_sample(
         "finished_at_utc": "",
     }
     artifact_dir = Path(str(source_record.get("artifact_dir") or ""))
-    quality_root = artifact_dir / "table-iii"
-    workspace = quality_root / "workspace"
+    quality_root = artifact_dir / "t3"
+    workspace = quality_root / "w"
     record["quality_artifact_dir"] = str(quality_root)
     cache_root = root / str(config.get("repo", {}).get("repos_dir", "repos"))
     cached_repo = cache_root / str(source_record.get("project_id") or "")
@@ -525,8 +525,8 @@ def run_quality_sample(
             "sample_file": str(source_record.get("sample_file") or ""),
         }
         sample = load_manifest_sample(dataset_dir, manifest_row)
-        test_dir = artifact_dir / "evosuite-tests"
-        original_compiled_tests = artifact_dir / "compiled-tests"
+        test_dir = artifact_dir / "tst"
+        original_compiled_tests = artifact_dir / "bin"
         java_files = generated_java_files(test_dir)
         test_classes = generated_test_classes(java_files)
         if not java_files or not test_classes or not original_compiled_tests.is_dir():

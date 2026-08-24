@@ -1,0 +1,1 @@
+ConvertClassToReflectedType.java,com.lexicalscope.fluentreflection.ConvertClassToReflectedType,org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator,convert,30,KILLED,com.lexicalscope.fluentreflection.ConvertClassToReflectedType_ESTest

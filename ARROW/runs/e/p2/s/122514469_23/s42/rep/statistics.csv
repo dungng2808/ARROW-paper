@@ -1,0 +1,2 @@
+TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time
+io.github.leberkleber.ljcm.parser.impl.BooleanParser,BRANCH,1.0,6,6,4,11,37314

@@ -1,0 +1,11 @@
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,isBase64,41,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanTrueReturnValsMutator,isBase64,41,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanTrueReturnValsMutator,isBase64,43,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,isEqual,58,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,isEqual,59,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanFalseReturnValsMutator,isEqual,60,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanTrueReturnValsMutator,isEqual,60,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanFalseReturnValsMutator,isHex,50,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanTrueReturnValsMutator,isHex,52,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.returns.EmptyObjectReturnValsMutator,toBase64,29,NO_COVERAGE,none
+MD5s.java,bio.overture.score.core.util.MD5s,org.pitest.mutationtest.engine.gregor.mutators.returns.EmptyObjectReturnValsMutator,toHex,34,NO_COVERAGE,none

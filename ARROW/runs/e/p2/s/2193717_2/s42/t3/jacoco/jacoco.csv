@@ -1,0 +1,4 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+JaCoCo Coverage Report,com.lexicalscope.fluentreflection,ConvertClassToReflectedType,0,11,0,0,0,4,0,2,0,2
+JaCoCo Coverage Report,com.lexicalscope.fluentreflection,ConvertClassToReflectedTypeAssignableMatcher,10,0,2,0,4,0,3,0,2,0
+JaCoCo Coverage Report,com.lexicalscope.fluentreflection,ConvertClassToReflectedTypeMatcher,6,0,0,0,2,0,2,0,2,0

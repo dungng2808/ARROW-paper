@@ -662,8 +662,8 @@ def run_sample(
     sample_started = time.monotonic()
     cache_root = root / str(config.get("repo", {}).get("repos_dir", "repos"))
     cached_repo = cache_root / sample.project_id
-    sample_root = output_dir / "samples" / f"{sample.project_id}_{sample.input_id}"
-    baseline_workspace = sample_root / "baseline_workspace"
+    sample_root = output_dir / "s" / sample.input_id
+    baseline_workspace = sample_root / "bw"
     sample_root.mkdir(parents=True, exist_ok=True)
     try:
         repository = prepare_repository(
@@ -755,12 +755,12 @@ def run_sample(
 
         for record in records:
             seed = int(record["seed"])
-            seed_root = sample_root / f"seed_{seed}"
+            seed_root = sample_root / f"s{seed}"
             if seed_root.exists():
                 safe_remove_tree(seed_root, sample_root)
-            test_dir = seed_root / "evosuite-tests"
-            report_dir = seed_root / "evosuite-report"
-            compiled_dir = seed_root / "compiled-tests"
+            test_dir = seed_root / "tst"
+            report_dir = seed_root / "rep"
+            compiled_dir = seed_root / "bin"
             seed_root.mkdir(parents=True, exist_ok=True)
             record["artifact_dir"] = str(seed_root)
             evosuite_cp = sanitize_classpath_for_evosuite(classpath, sample_root)

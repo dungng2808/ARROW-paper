@@ -1,0 +1,22 @@
+[
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\Java-version\\java-8\\bin\\java.exe",
+  "-Xmx2048m",
+  "-jar",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\tools\\evosuite\\evosuite-1.2.0.jar",
+  "-class",
+  "org.myeslib.hazelcast.storage.HzUnitOfWorkJournal",
+  "-projectCP",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\15951171_0\\bw\\myeslib-hazelcast\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\15951171_0\\bw\\myeslib-hazelcast\\target\\test-classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\15951171_0\\bw\\inventory-aggregate-root\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\15951171_0\\bw\\inventory-database\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\15951171_0\\bw\\myeslib-3rd-party\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\15951171_0\\bw\\myeslib-core\\target\\classes;D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\15951171_0\\bw\\myeslib-util\\target\\classes",
+  "-criterion",
+  "BRANCH",
+  "-seed",
+  "42",
+  "-Dsearch_budget=120",
+  "-Dstopping_condition=MaxTime",
+  "-Dtest_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\15951171_0\\s42\\tst",
+  "-Dreport_dir=D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\15951171_0\\s42\\rep",
+  "-Dstatistics_backend=CSV",
+  "-Doutput_variables=TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time",
+  "-Dassertions=true",
+  "-Dminimize=true"
+]

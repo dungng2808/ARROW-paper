@@ -1,0 +1,6 @@
+PropertyExpander.java,org.apache.roller.util.PropertyExpander,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,expandProperties,61,KILLED,org.apache.roller.util.PropertyExpander_ESTest
+PropertyExpander.java,org.apache.roller.util.PropertyExpander,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,expandProperties,68,SURVIVED,none
+PropertyExpander.java,org.apache.roller.util.PropertyExpander,org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator,expandProperties,72,KILLED,org.apache.roller.util.PropertyExpander_ESTest
+PropertyExpander.java,org.apache.roller.util.PropertyExpander,org.pitest.mutationtest.engine.gregor.mutators.returns.EmptyObjectReturnValsMutator,expandProperties,62,KILLED,org.apache.roller.util.PropertyExpander_ESTest
+PropertyExpander.java,org.apache.roller.util.PropertyExpander,org.pitest.mutationtest.engine.gregor.mutators.returns.EmptyObjectReturnValsMutator,expandProperties,81,KILLED,org.apache.roller.util.PropertyExpander_ESTest
+PropertyExpander.java,org.apache.roller.util.PropertyExpander,org.pitest.mutationtest.engine.gregor.mutators.returns.EmptyObjectReturnValsMutator,expandSystemProperties,94,KILLED,org.apache.roller.util.PropertyExpander_ESTest

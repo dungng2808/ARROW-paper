@@ -1,0 +1,2 @@
+TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time
+org.myeslib.hazelcast.storage.HzUnitOfWorkJournal,BRANCH,0.0,7,0,0,0,124317

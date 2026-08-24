@@ -1,0 +1,7 @@
+[
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\148614148_0\\s42\\t3\\w\\gradlew.bat",
+  "-I",
+  "D:\\ki9\\SEP490\\ArrowCode\\ARROW-paper\\ARROW\\runs\\e\\p2\\s\\148614148_0\\s42\\t3\\evosuite_classpath.init.gradle",
+  "-DarrowTargetProject=:",
+  "arrowPrintClasspath"
+]
