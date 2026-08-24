@@ -1,0 +1,14 @@
+rank,candidate_rank,project_id,sample_file,repository_url,focal_class,focal_class_path,class_kind,focal_method_name,testability_score,build_tool,java_version
+2,2529,117965972,117965972_7.json,https://github.com/alibaba/DataX,HttpUtils,tsdbwriter/src/main/java/com/alibaba/datax/plugin/writer/util/HttpUtils.java,class,get,10,maven,${jdk-version}
+6,2564,23358011,23358011_17.json,https://github.com/phax/ph-schematron,SchematronHelper,ph-schematron/src/main/java/com/helger/schematron/SchematronHelper.java,class,applySchematron,9,maven,8
+11,2649,16201889,16201889_6.json,https://github.com/gbif/name-parser,NameFormatter,name-parser-api/src/main/java/org/gbif/nameparser/util/NameFormatter.java,class,buildName,8,maven,17
+12,2679,23260390,23260390_105.json,https://github.com/virgo47/javasimon,ClassUtils,core/src/main/java/org/javasimon/utils/bean/ClassUtils.java,class,getGetter,9,maven,8
+20,2739,14865444,14865444_5.json,https://github.com/vertigo-io/vertigo,StringUtil,vertigo-core/src/main/java/io/vertigo/core/util/StringUtil.java,class,replace,8,maven,unknown
+24,2764,34706545,34706545_5.json,https://github.com/coniks-sys/coniks-java,Convert,util/src/main/java/org/coniks/util/Convert.java,class,longToBytes,10,maven,8
+30,2819,2693213,2693213_4.json,https://github.com/magja/magja,SoapCallFactory,connector/src/main/java/net/magja/soap/SoapCallFactory.java,class,createCall,9,maven,8
+31,2834,174104865,174104865_2.json,https://github.com/xkcoding/scaffold,TreeUtil,scaffold-common/src/main/java/com/xkcoding/scaffold/common/utils/TreeUtil.java,class,merge,10,maven,8
+33,2844,9189077,9189077_0.json,https://github.com/3pillarlabs/spring-integration-aws,JsonMessageMarshaller,spring-integration-aws/src/main/java/org/springframework/integration/aws/JsonMessageMarshaller.java,class,deserialize,10,maven,6
+35,2859,30927071,30927071_1.json,https://github.com/AdamBien/rulz,HttpMatchers,jaxrsclient/src/main/java/com/airhacks/rulz/jaxrsclient/HttpMatchers.java,class,clientError,10,maven,7
+38,2899,10624930,10624930_22.json,https://github.com/aerogear/aerogear-unifiedpush-server,UnifiedPushMessage,model/push/src/main/java/org/jboss/aerogear/unifiedpush/message/UnifiedPushMessage.java,class,toStrippedJsonString,10,maven,11
+45,2939,6662839,6662839_18.json,https://github.com/nchovy/kraken,PrimitiveConverter,infra/kraken-api/src/main/java/org/krakenapps/api/PrimitiveConverter.java,class,parse,7,maven,6
+47,2964,8686380,8686380_91.json,https://github.com/j-easy/easy-rules,MVELAction,easy-rules-mvel/src/main/java/org/jeasy/rules/mvel/MVELAction.java,class,execute,9,maven,8

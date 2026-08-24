@@ -1,0 +1,24 @@
+{
+  "processed": 3000,
+  "eligible": 249,
+  "target_requested": 200,
+  "target_selected": 200,
+  "reserve_requested": 50,
+  "reserve_selected": 49,
+  "enough_samples": false,
+  "status_counts": {
+    "EXCLUDED": 2751,
+    "ELIGIBLE": 249
+  },
+  "exclusion_stage_counts": {
+    "semantic_metadata": 910,
+    "baseline": 860,
+    "setup": 404,
+    "semantic": 528,
+    "classpath": 17,
+    "probe_target": 23,
+    "probe_module": 3,
+    "offline": 3,
+    "bytecode": 3
+  }
+}

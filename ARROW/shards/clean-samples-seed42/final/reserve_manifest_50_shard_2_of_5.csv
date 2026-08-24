@@ -1,0 +1,9 @@
+rank,candidate_rank,project_id,sample_file,repository_url,focal_class,focal_class_path,class_kind,focal_method_name,testability_score,build_tool,java_version
+16,2713,46789213,46789213_50.json,https://github.com/aicis/fresco,CoinTossing,tools/ot/src/main/java/dk/alexandra/fresco/tools/cointossing/CoinTossing.java,class,toss,10,maven,8
+21,2743,92312271,92312271_17.json,https://github.com/larsgrefer/java-sense-hat,SenseHatColor,sense-hat/src/main/java/de/larsgrefer/sense_hat/SenseHatColor.java,class,mix,9,gradle,8
+26,2798,108452902,108452902_0.json,https://github.com/kbastani/event-sourcing-microservices-example,UserController,recommendation-service/src/main/java/io/example/domain/user/UserController.java,class,recommendFriends,8,maven,11
+34,2848,99313507,99313507_1.json,https://github.com/MyCATApache/Mycat2,MigrateUtils,router/src/main/java/io/mycat/router/migrate/MigrateUtils.java,class,balanceExpand,9,maven,8
+37,2883,57921720,57921720_7.json,https://github.com/ChargeTimeEU/Java-OCA-OCPP,ComponentType,ocpp-v2_0/src/main/java/eu/chargetime/ocpp/model/basic/types/ComponentType.java,class,setName,8,maven,8
+40,2903,44167878,44167878_0.json,https://github.com/spacedog-io/spacedog-server,Json,client/src/main/java/io/spacedog/utils/Json.java,class,isObject,9,maven,8
+41,2918,97598061,97598061_0.json,https://github.com/gmu-swe/deflaker,SchedulingStrategies,surefire-rerunner/junit47/src/main/java/org/apache/maven/surefire/junitcore/pc/SchedulingStrategies.java,class,createInvokerStrategy,7,maven,7
+49,2998,21499094,21499094_6.json,https://github.com/kevinherron/opc-ua-stack,XmlDecoder,stack-core/src/main/java/com/digitalpetri/opcua/stack/core/serialization/xml/XmlDecoder.java,class,decodeVariant,9,maven,8

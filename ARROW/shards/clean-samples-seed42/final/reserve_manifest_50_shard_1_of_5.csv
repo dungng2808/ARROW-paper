@@ -1,0 +1,11 @@
+rank,candidate_rank,project_id,sample_file,repository_url,focal_class,focal_class_path,class_kind,focal_method_name,testability_score,build_tool,java_version
+1,2507,5796756,5796756_9.json,https://github.com/joliciel-informatique/talismane,SentenceDetector,talismane_core/src/main/java/com/joliciel/talismane/sentenceDetector/SentenceDetector.java,class,detectSentences,9,maven,11
+5,2557,98801926,98801926_11.json,https://github.com/thombergs/code-examples,Controller,spring-boot/hazelcast/hazelcast-embedded-cache/src/main/java/io/refectoring/cache/embedded/rest/Controller.java,class,get,8,gradle,8
+10,2647,172695826,172695826_2.json,https://github.com/xwings-technologies/ripple-lib-java,EDKeyPair,ripple-core/src/main/java/com/ripple/crypto/ecdsa/EDKeyPair.java,class,verifySignature,10,maven,6
+17,2722,56890246,56890246_2.json,https://github.com/lightstep/lightstep-tracer-java,TracerParameters,lightstep-tracer-jre-bundle/src/main/java/com/lightstep/tracer/jre/TracerParameters.java,class,getParameters,10,maven,8
+18,2727,107386062,107386062_18.json,https://github.com/ctripcorp/caravan,PatternCorrector,caravan-common/src/main/java/com/ctrip/soa/caravan/common/value/corrector/PatternCorrector.java,class,correct,10,maven,7
+22,2752,253251724,253251724_14.json,https://github.com/actumn/keycafe,DeleteCommand,server/src/main/java/io/keycafe/server/command/handler/DeleteCommand.java,class,run,9,gradle,8
+23,2762,14518795,14518795_0.json,https://github.com/canhnt/sne-xacml,FirstApplicableAlg,sne-xacml/src/main/java/nl/uva/sne/midd/algorithms/FirstApplicableAlg.java,class,combine,9,maven,7
+28,2802,50579018,50579018_34.json,https://github.com/hazelcast/hazelcast-hibernate-3-and-4,ExpiryMarker,hazelcast-hibernate3/src/main/java/com/hazelcast/hibernate/serialization/ExpiryMarker.java,class,isReplaceableBy,9,maven,6
+39,2902,138623536,138623536_26.json,https://github.com/apache/sling-org-apache-sling-app-cms,ChangePasswordOperation,core/src/main/java/org/apache/sling/cms/core/internal/operations/ChangePasswordOperation.java,class,run,9,maven,${sling.cms.java.version}
+44,2937,84521629,84521629_3.json,https://github.com/PerficientDigital/AEM-DataLayer,AEMDataLayerInterceptorFilter,core/src/main/java/com/perficient/aem/datalayer/core/filters/AEMDataLayerInterceptorFilter.java,class,resourceHierarchyHasACycle,9,maven,8

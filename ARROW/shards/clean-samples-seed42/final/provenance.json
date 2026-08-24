@@ -1,0 +1,25 @@
+{
+  "run_id": "clean-200-merged-seed42",
+  "finished_at_utc": "2026-08-24T05:12:14.926003+00:00",
+  "mode": "merge",
+  "candidate_manifest": "/Users/dungng/FPT/Ki 9/SET490/ARROW-paper/ARROW/shards/clean-samples-seed42/candidate_manifest.csv",
+  "candidate_manifest_sha256": "7972bccb046154036617af5776debe75c973209c6921308fdb5bc47637921c1f",
+  "target": 200,
+  "reserve": 50,
+  "source_shard_count": 5,
+  "source_shard_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "source_run_ids": [
+    "clean-200-shard-0",
+    "clean-200-shard-1",
+    "clean-200-shard-2",
+    "clean-200-shard-3",
+    "clean-200-shard-4"
+  ],
+  "generation_results_used_for_selection": false
+}
