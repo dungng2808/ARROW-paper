@@ -1,0 +1,2 @@
+Model,Prompt,Valid tests,Smell Density,Smell-free Tests
+EvoSuite,Search-based baseline,18,14.83,0 (0.00%)

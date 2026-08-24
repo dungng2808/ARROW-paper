@@ -7,9 +7,11 @@ import os
 import re
 import shutil
 import signal
+import socket
 import subprocess
 import time
 import urllib.request
+import zipfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -17,7 +19,7 @@ from typing import Any, Iterable
 
 from .build_runner import BuildContext, select_gradle_command, select_maven_command, verify_baseline
 from .input_selector import load_sample
-from .java_resolver import resolve_java_home
+from .java_resolver import _java_version_from_home, resolve_java_home
 from .models import FailureOrigin, FailureState, SampleInput
 from .project_analyzer import analyze_experiment
 from .repo_manager import checkout_dataset_revision, clone_repo, ensure_experiment_workspace, safe_remove_tree
@@ -159,11 +161,41 @@ def focal_fqcn(sample: SampleInput, workspace: Path) -> str:
     return f"{package}.{sample.focal_class_name}" if package else sample.focal_class_name
 
 
+EVOSUITE_ADD_OPENS = (
+    "--add-opens=java.base/java.lang=ALL-UNNAMED",
+    "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED",
+    "--add-opens=java.base/java.util=ALL-UNNAMED",
+    "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED",
+    "--add-opens=java.base/java.net=ALL-UNNAMED",
+    "--add-opens=java.base/java.io=ALL-UNNAMED",
+    "--add-opens=java.base/java.nio=ALL-UNNAMED",
+    "--add-opens=java.base/java.text=ALL-UNNAMED",
+    "--add-opens=java.base/sun.reflect.annotation=ALL-UNNAMED",
+    "--add-opens=java.base/sun.security.action=ALL-UNNAMED",
+    "--add-opens=java.desktop/java.awt=ALL-UNNAMED",
+    "--add-opens=java.desktop/java.awt.font=ALL-UNNAMED",
+)
+
+
+def _is_java_9_plus(java_home: str | None) -> bool:
+    if not java_home:
+        return True
+    version_str = _java_version_from_home(java_home)
+    try:
+        return int(version_str) >= 9
+    except (TypeError, ValueError):
+        return True
+
+
 def java_environment(java_home: str | None) -> dict[str, str]:
     env = os.environ.copy()
     if java_home:
         env["JAVA_HOME"] = java_home
         env["PATH"] = str(Path(java_home) / "bin") + os.pathsep + env.get("PATH", "")
+    if _is_java_9_plus(java_home):
+        existing_jdk_opts = env.get("JDK_JAVA_OPTIONS", "").strip()
+        add_opens_str = " ".join(EVOSUITE_ADD_OPENS)
+        env["JDK_JAVA_OPTIONS"] = f"{existing_jdk_opts} {add_opens_str}".strip()
     return env
 
 
@@ -357,6 +389,54 @@ def find_focal_bytecode(classpath: list[Path], fqcn: str) -> Path | None:
     return None
 
 
+def sanitize_classpath_for_evosuite(classpath: list[Path], cache_dir: Path) -> list[Path]:
+    """Strip classes with bytecode version > 65 (Java 21+) from multi-release JARs so ASM in EvoSuite does not crash."""
+    sanitized: list[Path] = []
+    clean_dir = cache_dir / ".clean_jars"
+    for entry in classpath:
+        if not entry.is_file() or not entry.name.lower().endswith(".jar"):
+            sanitized.append(entry)
+            continue
+        try:
+            has_unsupported = False
+            with zipfile.ZipFile(entry, "r") as zf:
+                for info in zf.infolist():
+                    if info.filename.endswith(".class"):
+                        with zf.open(info) as f:
+                            header = f.read(8)
+                            if len(header) == 8 and header[:4] == b"\xca\xfe\xba\xbe":
+                                major = int.from_bytes(header[6:8], "big")
+                                if major > 65:
+                                    has_unsupported = True
+                                    break
+            if not has_unsupported:
+                sanitized.append(entry)
+                continue
+
+            clean_dir.mkdir(parents=True, exist_ok=True)
+            clean_jar = clean_dir / f"clean_{entry.name}"
+            if not clean_jar.is_file():
+                with zipfile.ZipFile(entry, "r") as zin, zipfile.ZipFile(clean_jar, "w") as zout:
+                    for item in zin.infolist():
+                        if item.filename.endswith(".class"):
+                            data = zin.read(item.filename)
+                            if len(data) >= 8 and data[:4] == b"\xca\xfe\xba\xbe":
+                                major = int.from_bytes(data[6:8], "big")
+                                if major > 65:
+                                    continue
+                        zout.writestr(item, zin.read(item.filename))
+            sanitized.append(clean_jar)
+        except Exception:
+            sanitized.append(entry)
+    return sanitized
+
+
+def find_free_port() -> int:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", 0))
+        return int(s.getsockname()[1])
+
+
 def evosuite_command(
     tools: EvoSuiteTools,
     java_home: str | None,
@@ -369,11 +449,17 @@ def evosuite_command(
     memory_mb: int,
     criterion: str,
 ) -> list[str]:
-    return [
+    cmd = [
         java_executable(java_home, "java"),
         f"-Xmx{memory_mb}m",
+    ]
+    if _is_java_9_plus(java_home):
+        cmd.extend(EVOSUITE_ADD_OPENS)
+    port = find_free_port()
+    cmd.extend([
         "-jar",
         str(tools.evosuite),
+        f"-Dprocess_communication_port={port}",
         "-class",
         fqcn,
         "-projectCP",
@@ -390,7 +476,8 @@ def evosuite_command(
         "-Doutput_variables=TARGET_CLASS,criterion,Coverage,Total_Goals,Covered_Goals,Size,Length,Total_Time",
         "-Dassertions=true",
         "-Dminimize=true",
-    ]
+    ])
+    return cmd
 
 
 def generated_java_files(test_dir: Path) -> list[Path]:
@@ -676,11 +763,12 @@ def run_sample(
             compiled_dir = seed_root / "compiled-tests"
             seed_root.mkdir(parents=True, exist_ok=True)
             record["artifact_dir"] = str(seed_root)
+            evosuite_cp = sanitize_classpath_for_evosuite(classpath, sample_root)
             command = evosuite_command(
                 tools,
                 java_home,
                 fqcn,
-                classpath,
+                evosuite_cp,
                 test_dir,
                 report_dir,
                 seed,
