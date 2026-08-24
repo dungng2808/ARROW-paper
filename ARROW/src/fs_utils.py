@@ -54,3 +54,14 @@ def read_text_if_exists(path: Path) -> str:
     if not path.is_file():
         return ""
     return path.read_text(encoding="utf-8", errors="replace")
+
+
+def safe_cmd_path(p: Path | str) -> str:
+    s = str(p)
+    if os.name == "nt" and os.path.exists("X:\\"):
+        s = s.replace("R:\\Đồ án", "X:").replace("R:/Đồ án", "X:")
+    return s
+
+
+def safe_cmd_path_obj(p: Path | str) -> Path:
+    return Path(safe_cmd_path(p))

@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .build_runner import BuildContext, select_gradle_command, select_maven_command, verify_baseline
+from .fs_utils import safe_cmd_path, safe_cmd_path_obj
 from .input_selector import load_sample
 from .java_resolver import _java_version_from_home, resolve_java_home
 from .models import FailureOrigin, FailureState, SampleInput
@@ -226,10 +227,12 @@ def _stop_process(proc: subprocess.Popen[str]) -> None:
 
 def run_process(command: list[str], cwd: Path, env: dict[str, str], timeout_seconds: int) -> CommandResult:
     started = time.monotonic()
+    cmd_exec = [safe_cmd_path(part) for part in command]
+    cwd_exec = safe_cmd_path_obj(cwd)
     try:
         proc = subprocess.Popen(
-            command,
-            cwd=cwd,
+            cmd_exec,
+            cwd=cwd_exec,
             env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,

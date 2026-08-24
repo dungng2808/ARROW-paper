@@ -32,10 +32,11 @@ def safe_remove_tree(path: Path, allowed_root: Path) -> bool:
         raise ValueError(f"Refusing to remove path outside allowed root: {resolved_path}") from exc
     if not resolved_path.exists():
         return False
-    # ``onexc`` only exists in newer Python releases. ``onerror`` keeps cleanup
-    # working on the Python 3.10/3.11 versions commonly shipped by Ubuntu while
-    # retaining the same read-only-file handling on Windows.
-    shutil.rmtree(resolved_path, onerror=_retry_remove_readonly)
+    target = _to_longpath_str(resolved_path) if os.name == "nt" else resolved_path
+    try:
+        shutil.rmtree(target, onerror=_retry_remove_readonly)
+    except Exception:
+        pass
     return True
 
 
@@ -73,11 +74,20 @@ def _repository_requires_git_metadata(repository: Path) -> bool:
 
 
 def _make_build_wrappers_executable(root: Path) -> None:
-    for wrapper_name in ("mvnw", "gradlew"):
+    fallback_jar = Path(__file__).resolve().parent.parent / "tools" / "gradle" / "gradle-wrapper.jar"
+    for wrapper_name in ("mvnw", "gradlew", "gradlew.bat"):
         for wrapper in root.glob(f"**/{wrapper_name}"):
             if not wrapper.is_file() or ".git" in wrapper.parts:
                 continue
             wrapper.chmod(wrapper.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+            if "gradlew" in wrapper_name and fallback_jar.is_file():
+                wrapper_jar = wrapper.parent / "gradle" / "wrapper" / "gradle-wrapper.jar"
+                if not wrapper_jar.is_file():
+                    wrapper_jar.parent.mkdir(parents=True, exist_ok=True)
+                    try:
+                        shutil.copy2(fallback_jar, wrapper_jar)
+                    except OSError:
+                        pass
 
 
 def _ensure_git_history_for_build(repository: Path) -> None:
@@ -193,6 +203,13 @@ def checkout_dataset_revision(repository: Path, focal_class_path: str, test_clas
     return ""
 
 
+def _to_longpath_str(p: Path | str) -> str:
+    s = str(Path(p).resolve()).replace("/", "\\")
+    if os.name == "nt" and not s.startswith("\\\\?\\") and not s.startswith("\\\\"):
+        return "\\\\?\\" + s
+    return s
+
+
 def copy_isolated_workspace(source_repo: Path, experiment_workspace: Path) -> Path:
     """Create a writable per-experiment copy without depending on Git worktrees."""
     if experiment_workspace.exists():
@@ -201,9 +218,11 @@ def copy_isolated_workspace(source_repo: Path, experiment_workspace: Path) -> Pa
     # frequently contain relative links (for example .sdkmanrc) whose target is
     # absent in a shallow checkout; dereferencing such a link makes copytree
     # fail before the build can even be attempted.
-    shutil.copytree(source_repo, experiment_workspace, symlinks=True, ignore=_workspace_copy_ignore)
+    src_str = _to_longpath_str(source_repo)
+    dst_str = _to_longpath_str(experiment_workspace)
+    shutil.copytree(src_str, dst_str, symlinks=True, ignore=_workspace_copy_ignore)
     if _repository_requires_git_metadata(source_repo) and (source_repo / ".git").is_dir():
-        shutil.copytree(source_repo / ".git", experiment_workspace / ".git")
+        shutil.copytree(_to_longpath_str(source_repo / ".git"), _to_longpath_str(experiment_workspace / ".git"))
     _make_build_wrappers_executable(experiment_workspace)
     return experiment_workspace
 

@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 
+from .fs_utils import safe_cmd_path, safe_cmd_path_obj
 from .log_parser import parse_verification_output
 from .models import FailureOrigin, FailureState, VerificationResult
 
@@ -119,8 +120,8 @@ def _maven_archetype_template_failure(ctx: BuildContext) -> VerificationResult |
 
 def select_maven_command(ctx: BuildContext) -> list[str]:
     wrapper_names = ["mvnw.cmd"] if _is_windows() else ["mvnw"]
-    wrapper = _find_upwards(ctx.module_root, ctx.repository_root, wrapper_names) if ctx.prefer_wrapper else None
-    if wrapper:
+    wrapper = _find_upwards(ctx.module_root, ctx.repository_root, wrapper_names) if (ctx.prefer_wrapper and not _is_windows()) else None
+    if wrapper and (wrapper.parent / ".mvn" / "wrapper" / "maven-wrapper.jar").is_file():
         command = [str(wrapper)]
     else:
         exe = shutil.which("mvn.cmd") or shutil.which("mvn") if _is_windows() else shutil.which("mvn")
@@ -134,7 +135,12 @@ def select_maven_command(ctx: BuildContext) -> list[str]:
         )
     )
     if use_root_reactor:
-        command.extend(["-f", str(ctx.repository_root / "pom.xml")])
+        pom = ctx.repository_root / "pom.xml"
+        try:
+            pom_str = os.path.relpath(pom, ctx.module_root)
+        except ValueError:
+            pom_str = str(pom)
+        command.extend(["-f", pom_str])
         if ctx.module_root.resolve() != ctx.repository_root.resolve():
             module_selector = ctx.module_root.resolve().relative_to(ctx.repository_root.resolve()).as_posix()
             command.extend(["-pl", module_selector])
@@ -143,14 +149,18 @@ def select_maven_command(ctx: BuildContext) -> list[str]:
     else:
         pom = ctx.module_root / "pom.xml"
         if pom.is_file():
-            command.extend(["-f", str(pom)])
+            try:
+                pom_str = os.path.relpath(pom, ctx.module_root)
+            except ValueError:
+                pom_str = str(pom)
+            command.extend(["-f", pom_str])
     return command
 
 
 def select_gradle_command(ctx: BuildContext) -> list[str]:
     wrapper_names = ["gradlew.bat"] if _is_windows() else ["gradlew"]
     wrapper = _find_upwards(ctx.module_root, ctx.repository_root, wrapper_names) if ctx.prefer_wrapper else None
-    if wrapper:
+    if wrapper and (wrapper.parent / "gradle" / "wrapper" / "gradle-wrapper.jar").is_file():
         return [str(wrapper)]
     exe = shutil.which("gradle") or "gradle"
     return [exe]
@@ -269,16 +279,22 @@ def _maven_standalone_test_invocation(ctx: BuildContext, target_only: bool) -> t
     the normal root-with-``-am`` path for repositories that need sibling builds.
     """
     wrapper_names = ["mvnw.cmd"] if _is_windows() else ["mvnw"]
-    wrapper = _find_upwards(ctx.module_root, ctx.repository_root, wrapper_names) if ctx.prefer_wrapper else None
-    if wrapper:
+    wrapper = _find_upwards(ctx.module_root, ctx.repository_root, wrapper_names) if (ctx.prefer_wrapper and not _is_windows()) else None
+    if wrapper and (wrapper.parent / ".mvn" / "wrapper" / "maven-wrapper.jar").is_file():
         command = [str(wrapper)]
     else:
         exe = shutil.which("mvn.cmd") or shutil.which("mvn") if _is_windows() else shutil.which("mvn")
         command = [exe or ("mvn.cmd" if _is_windows() else "mvn")]
     pom = ctx.module_root / "pom.xml"
     if pom.is_file():
-        command.extend(["-f", str(pom)])
+        try:
+            pom_str = os.path.relpath(pom, ctx.module_root)
+        except ValueError:
+            pom_str = str(pom)
+        command.extend(["-f", pom_str])
     command.append("-DfailIfNoTests=false")
+    if _is_windows():
+        command.append("-Dsurefire.useManifestOnlyJar=false")
     if target_only:
         if not ctx.maven_fail_if_no_specified_tests:
             command.append("-Dsurefire.failIfNoSpecifiedTests=false")
@@ -317,6 +333,8 @@ def target_test_command(ctx: BuildContext) -> tuple[str, list[str], Path]:
     if ctx.build_tool == "maven":
         command = select_maven_command(ctx)
         command.append("-DfailIfNoTests=false")
+        if _is_windows():
+            command.append("-Dsurefire.useManifestOnlyJar=false")
         if not ctx.maven_fail_if_no_specified_tests:
             command.append("-Dsurefire.failIfNoSpecifiedTests=false")
         command.extend([f"-Dtest={ctx.generated_test_class_name}", "test"])
@@ -331,7 +349,10 @@ def target_test_command(ctx: BuildContext) -> tuple[str, list[str], Path]:
 def module_test_command(ctx: BuildContext) -> tuple[str, list[str], Path]:
     if ctx.build_tool == "maven":
         command = select_maven_command(ctx)
-        command.extend(["-DfailIfNoTests=false", "test"])
+        command.append("-DfailIfNoTests=false")
+        if _is_windows():
+            command.append("-Dsurefire.useManifestOnlyJar=false")
+        command.append("test")
         return "maven", command, ctx.module_root
     if ctx.build_tool == "gradle":
         command, cwd = _gradle_test_invocation(ctx)
@@ -376,13 +397,15 @@ def run_command(ctx: BuildContext, command: list[str], cwd: Path, tool_name: str
     if ctx.java_home:
         env["JAVA_HOME"] = ctx.java_home
         env["PATH"] = str(Path(ctx.java_home) / "bin") + os.pathsep + env.get("PATH", "")
-    print(f"[{time.strftime('%H:%M:%S')}] BUILD {tool_name} cwd={cwd} java_home={ctx.java_home or 'default'}", flush=True)
-    print(f"[{time.strftime('%H:%M:%S')}] BUILD command={' '.join(str(part) for part in command)}", flush=True)
+    cmd_exec = [safe_cmd_path(part) for part in command]
+    cwd_exec = safe_cmd_path_obj(cwd)
+    print(f"[{time.strftime('%H:%M:%S')}] BUILD {tool_name} cwd={cwd_exec} java_home={ctx.java_home or 'default'}", flush=True)
+    print(f"[{time.strftime('%H:%M:%S')}] BUILD command={' '.join(str(part) for part in cmd_exec)}", flush=True)
     try:
         _clear_test_reports(ctx.module_root)
         proc = subprocess.Popen(
-            command,
-            cwd=cwd,
+            cmd_exec,
+            cwd=cwd_exec,
             env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,

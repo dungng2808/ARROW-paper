@@ -20,6 +20,7 @@ from .evosuite_runner import (
     run_sample as run_evosuite_sample,
     sha256_file,
 )
+from .fs_utils import safe_cmd_path, safe_cmd_path_obj
 from .input_selector import load_sample
 from .metrics_runner import SMELL_ALIASES, SMELL_COLUMNS
 from .repo_manager import safe_remove_tree
@@ -192,17 +193,17 @@ def run_smell_sample(
         )
         input_csv = smell_root / "pathToInputFile.csv"
         with input_csv.open("w", encoding="utf-8", newline="") as handle:
-            csv.writer(handle).writerow([detector_id, test_source.resolve(), focal_source.resolve()])
+            csv.writer(handle).writerow([detector_id, safe_cmd_path(test_source), safe_cmd_path(focal_source)])
         for stale in smell_root.glob("Output_TestSmellDetection*.csv"):
             stale.unlink()
         selected_java_home = java_home or str(source_record.get("java_home") or "")
-        command = [java_executable(selected_java_home or None, "java"), "-jar", str(detector), str(input_csv)]
+        command = [java_executable(selected_java_home or None, "java"), "-jar", safe_cmd_path(detector), safe_cmd_path(input_csv)]
         (smell_root / "tsdetect_command.json").write_text(
             json.dumps(command, ensure_ascii=False, indent=2), encoding="utf-8"
         )
         completed = subprocess.run(
             command,
-            cwd=smell_root,
+            cwd=safe_cmd_path_obj(smell_root),
             capture_output=True,
             text=True,
             errors="replace",
